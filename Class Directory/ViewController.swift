@@ -18,7 +18,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var instructorpath : String?
     var masterArray = [[Person](), [Person]()] as Array
     
-    // #MARK Lifecycle
+    // #MARK: Lifecycle
                             
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +45,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
         
     }
+    
+//    #MARK: Serialization
     
     func createPeoplePlist() {
         let fileManager = (NSFileManager.defaultManager())
@@ -117,6 +119,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
 
+//    #MARK: Tableview
 
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         //        return 2
@@ -210,7 +213,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
 
 
-
+//#MARK: Array initialization
 
     func createInitialPeople() {
         

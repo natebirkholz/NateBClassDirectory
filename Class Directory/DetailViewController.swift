@@ -15,10 +15,9 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var instructorSwitch: UISwitch!
+    @IBOutlet weak var imageView: UIImageView!
     
-    
-    
-    
+//  #MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +25,12 @@ class DetailViewController: UIViewController {
         self.firstNameField.text = self.selectedPerson?.firstName
         self.lastNameField.text = self.selectedPerson?.lastName
         
+        var blankImage = UIImage(named: "stack21")
+        self.imageView.image = blankImage
 
-        
     }
+    
+
     
 
 
@@ -44,6 +46,15 @@ class DetailViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
 
+    }
+    
+    
+//    #MARK: Input management
+    
+    
+    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     @IBAction func instructorSwitchSwitched(sender: UISwitch) {

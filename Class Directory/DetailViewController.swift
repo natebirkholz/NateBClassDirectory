@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var selectedPerson : Person?
     
@@ -21,17 +21,24 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+            println("DVC1")
         self.firstNameField.text = self.selectedPerson?.firstName
+            println("DVC2")
         self.lastNameField.text = self.selectedPerson?.lastName
-        
-        var blankImage = UIImage(named: "stack21")
-        self.imageView.image = blankImage
+            println("DVC3")
+        var myImage = self.selectedPerson?.imageFor  // UIImage(named: "stack21")
+            println("DVC4")
+        self.imageView.image = myImage
+            println("DVC5")
 
     }
     
 
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        
+
+    }
 
 
     override func viewWillDisappear(animated: Bool) {
@@ -39,6 +46,7 @@ class DetailViewController: UIViewController {
         
         self.selectedPerson?.firstName = self.firstNameField.text
         self.selectedPerson?.lastName = self.lastNameField.text
+        self.selectedPerson?.imageFor = self.imageView.image
 
     }
 
@@ -48,23 +56,52 @@ class DetailViewController: UIViewController {
 
     }
     
-    
-//    #MARK: Input management
-    
-    
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
+    
+//    #MARK: Input management
+    
+    
+
+    
     @IBAction func instructorSwitchSwitched(sender: UISwitch) {
-        if self.instructorSwitch.on {
+        if instructorSwitch.on {
             println("on")
         } else {
-            println("on")
+            println("off")
         }
     }
     
+    @IBAction func photoButtonPressed(sender: UIButton) {
+            println("DVC6")
+        var imagePickerController = UIImagePickerController()
+            println("DVC7")
+        imagePickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary // .camera
+            println("DVC8")
+        self.presentViewController(imagePickerController, animated: true, completion: nil /* for some code*/)
+            println("DVC9")
+        imagePickerController.delegate = self
+            println("DVC10")
+        imagePickerController.allowsEditing = true
+    }
+
     
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
+        // gets fired when image picker is done
+        println("user picked an image")
+        
+        var editedImage = info[UIImagePickerControllerEditedImage] as UIImage
+        self.imageView.image = editedImage
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        
+    }
+    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+        // fired when user cancels
+        
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
 
 }

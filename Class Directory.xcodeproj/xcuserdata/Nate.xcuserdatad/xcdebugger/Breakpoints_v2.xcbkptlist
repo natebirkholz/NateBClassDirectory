@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
             endingLineNumber = "22"
-            landmarkName = "init(firstName:lastName:isTeacher:)"
+            landmarkName = "init(firstName:lastName:imageFor:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,74 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Class Directory/ViewController.swift"
-            timestampString = "430212764.077245"
+            timestampString = "430259548.395639"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
             landmarkName = "createInitialInstructors()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Class_Directory.ViewController.createInitialInstructors (Class_Directory.ViewController)() -&gt; ()"
+                  moduleName = "Class Directory"
+                  urlString = "file:///Users/Nate/Documents/XCodeProjects/iOSFoundationsAug2014/NateBClassDirectory/Class%20Directory/Class%20Directory/ViewController.swift"
+                  timestampString = "430266615.900341"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "302"
+                  endingLineNumber = "302"
+                  offsetFromSymbolStart = "15">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Class_Directory.ViewController.createInitialInstructors (Class_Directory.ViewController)() -&gt; ()"
+                  moduleName = "Class Directory"
+                  urlString = "file:///Users/Nate/Documents/XCodeProjects/iOSFoundationsAug2014/NateBClassDirectory/Class%20Directory/Class%20Directory/ViewController.swift"
+                  timestampString = "430266615.900531"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "302"
+                  endingLineNumber = "302"
+                  offsetFromSymbolStart = "1076">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Class Directory/PersonClass.swift"
+            timestampString = "430266393.530723"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "encodeWithCoder(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Class Directory/ViewController.swift"
+            timestampString = "430266615.887228"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "createInitialPeople()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

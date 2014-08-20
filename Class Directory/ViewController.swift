@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var instructorArray = [Person]()
     var plistpath : String?
     var instructorpath : String?
-    var masterArray = [[Person](), [Person]()] as Array
+//    var masterArray = [[Person](), [Person]()] as Array
     
     // #MARK: Lifecycle
                             
@@ -69,7 +69,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
                 
-                println("writing to path \(plistpath)")
+//                println("writing to path \(plistpath)")
                 
                 
             } else {            //Reading Plist file
@@ -106,7 +106,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
                 
-                println("writing to path \(instructorpath)")
+//                println("writing to path \(instructorpath)")
                 
                 
             } else {            //Reading Plist file
@@ -122,14 +122,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //    #MARK: Tableview
 
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
-        //        return 2
-        println("Number of sections is \(self.masterArray.count)")
-
-
+                return 2
         
-
         
-        return self.masterArray.count
+//        println("Number of sections is \(self.masterArray.count)")
+//        return self.masterArray.count
         
         
     }
@@ -147,15 +144,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        //        if (section == 0) {
-        //            return self.instructorArray.count
-        //        } else {
-        //        return self.peopleArray.count
-        //        }
+                if (section == 0) {
+                    return self.instructorArray.count
+                } else {
+                return self.peopleArray.count
+                }
         
-        return self.masterArray[section].count
+//        return self.masterArray[section].count
         
-//        
 //        let teacherCount = peopleArray.filter { (person : Person) -> Bool in
 //            return person.isTeacher!
 //            }.count
@@ -178,7 +174,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.textLabel.text = personForRow.fullName()
         }
         
-        println("cell is \(cell), indexpath is \(indexPath)")
+//        println("cell is \(cell), indexpath is \(indexPath)")
         
         return cell
         
@@ -191,21 +187,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if segue.identifier == "detailVCSegue" {
             if self.tableViewMain.indexPathForSelectedRow().section == 0 {
                 
-                var selectedArray = self.masterArray[self.tableViewMain.indexPathForSelectedRow().section]
-                var selectedPerson = selectedArray[self.tableViewMain.indexPathForSelectedRow().row]
+//                var selectedArray = self.masterArray[self.tableViewMain.indexPathForSelectedRow().section]
+//                var selectedPerson = selectedArray[self.tableViewMain.indexPathForSelectedRow().row]
                 
+                var selectedPerson = self.instructorArray[self.tableViewMain.indexPathForSelectedRow().row]
+                println("VC1")
                 let vc = segue.destinationViewController as DetailViewController
-                
+                println("VC2")
                 vc.selectedPerson = selectedPerson
+                println("VC3")
                 
             } else {
                 
                 var selectedPerson = self.peopleArray[self.tableViewMain.indexPathForSelectedRow().row]
-                
+                println("VC4")
                 let vc = segue.destinationViewController as DetailViewController
-                
+                println("VC5")
                 vc.selectedPerson = selectedPerson
-                
+                println("VC6")
             }
             
         }
@@ -219,30 +218,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if peopleArray.isEmpty {
             
-            var nateB = Person(firstName: "Nate", lastName: "Birkholz", isTeacher: false)
-            var matthewB = Person(firstName: "Matthew", lastName: "Brightbill", isTeacher: false)
-            var jeffC = Person(firstName: "Jeff", lastName: "Chavez", isTeacher: false)
-            var christieF = Person(firstName: "Christie", lastName: "Ferderer", isTeacher: false)
-            var davidF = Person(firstName: "David", lastName: "Fry", isTeacher: false)
-            var adrianG = Person(firstName: "Adrian", lastName: "Gherle", isTeacher: false)
-            var jakeH = Person(firstName: "Jake", lastName: "Hawken", isTeacher: false)
-            var shamsK = Person(firstName: "Shams", lastName: "Kazi", isTeacher: false)
-            var cameronK = Person(firstName: "Cameron", lastName: "Klein", isTeacher: false)
-            var koriK = Person(firstName: "Kori", lastName: "Kolodziejczak", isTeacher: false)
-            var parkerL = Person(firstName: "Parker", lastName: "Lewis", isTeacher: false)
-            var nathanM = Person(firstName: "Nathan", lastName: "Ma", isTeacher: false)
-            var caseyM = Person(firstName: "Casey", lastName: "MacPhee", isTeacher: false)
-            var brendanM = Person(firstName: "Brendan", lastName: "McAleer", isTeacher: false)
-            var brianM = Person(firstName: "Brian", lastName: "Mendez", isTeacher: false)
-            var markM = Person(firstName: "Mark", lastName: "Morris", isTeacher: false)
-            var rowanN = Person(firstName: "Rowan", lastName: "North", isTeacher: false)
-            var kevinP = Person(firstName: "Kevin", lastName: "Pham", isTeacher: false)
-            var willR = Person(firstName: "Will", lastName: "Richman", isTeacher: false)
-            var heatherT = Person(firstName: "Heather", lastName: "Thueringer", isTeacher: false)
-            var tuanV = Person(firstName: "Tuan", lastName: "Vu", isTeacher: false)
-            var zackW = Person(firstName: "Zack", lastName: "Walkingstick", isTeacher: false)
-            var saraW = Person(firstName: "Sara", lastName: "Wong", isTeacher: false)
-            var hiongyaoZ = Person(firstName: "Hongyao", lastName: "Zhang", isTeacher: false)
+            var nateB = Person(firstName: "Nate", lastName: "Birkholz", imageFor: UIImage(named: "stack21"))
+            var matthewB = Person(firstName: "Matthew", lastName: "Brightbill", imageFor: UIImage(named: "stack21"))
+            var jeffC = Person(firstName: "Jeff", lastName: "Chavez", imageFor: UIImage(named: "stack21"))
+            var christieF = Person(firstName: "Christie", lastName: "Ferderer", imageFor: UIImage(named: "stack21"))
+            var davidF = Person(firstName: "David", lastName: "Fry", imageFor: UIImage(named: "stack21"))
+            var adrianG = Person(firstName: "Adrian", lastName: "Gherle", imageFor: UIImage(named: "stack21"))
+            var jakeH = Person(firstName: "Jake", lastName: "Hawken", imageFor: UIImage(named: "stack21"))
+            var shamsK = Person(firstName: "Shams", lastName: "Kazi", imageFor: UIImage(named: "stack21"))
+            var cameronK = Person(firstName: "Cameron", lastName: "Klein", imageFor: UIImage(named: "stack21"))
+            var koriK = Person(firstName: "Kori", lastName: "Kolodziejczak", imageFor: UIImage(named: "stack21"))
+            var parkerL = Person(firstName: "Parker", lastName: "Lewis", imageFor: UIImage(named: "stack21"))
+            var nathanM = Person(firstName: "Nathan", lastName: "Ma", imageFor: UIImage(named: "stack21"))
+            var caseyM = Person(firstName: "Casey", lastName: "MacPhee", imageFor: UIImage(named: "stack21"))
+            var brendanM = Person(firstName: "Brendan", lastName: "McAleer", imageFor: UIImage(named: "stack21"))
+            var brianM = Person(firstName: "Brian", lastName: "Mendez", imageFor: UIImage(named: "stack21"))
+            var markM = Person(firstName: "Mark", lastName: "Morris", imageFor: UIImage(named: "stack21"))
+            var rowanN = Person(firstName: "Rowan", lastName: "North", imageFor: UIImage(named: "stack21"))
+            var kevinP = Person(firstName: "Kevin", lastName: "Pham", imageFor: UIImage(named: "stack21"))
+            var willR = Person(firstName: "Will", lastName: "Richman", imageFor: UIImage(named: "stack21"))
+            var heatherT = Person(firstName: "Heather", lastName: "Thueringer", imageFor: UIImage(named: "stack21"))
+            var tuanV = Person(firstName: "Tuan", lastName: "Vu", imageFor: UIImage(named: "stack21"))
+            var zackW = Person(firstName: "Zack", lastName: "Walkingstick", imageFor: UIImage(named: "stack21"))
+            var saraW = Person(firstName: "Sara", lastName: "Wong", imageFor: UIImage(named: "stack21"))
+            var hiongyaoZ = Person(firstName: "Hongyao", lastName: "Zhang", imageFor: UIImage(named: "stack21"))
             
             self.peopleArray.append(nateB)
             self.peopleArray.append(matthewB)
@@ -269,30 +268,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.peopleArray.append(saraW)
             self.peopleArray.append(hiongyaoZ)
             
-            self.masterArray[1].append(nateB)
-            self.masterArray[1].append(matthewB)
-            self.masterArray[1].append(jeffC)
-            self.masterArray[1].append(christieF)
-            self.masterArray[1].append(davidF)
-            self.masterArray[1].append(adrianG)
-            self.masterArray[1].append(jakeH)
-            self.masterArray[1].append(shamsK)
-            self.masterArray[1].append(cameronK)
-            self.masterArray[1].append(koriK)
-            self.masterArray[1].append(parkerL)
-            self.masterArray[1].append(nathanM)
-            self.masterArray[1].append(caseyM)
-            self.masterArray[1].append(brendanM)
-            self.masterArray[1].append(brianM)
-            self.masterArray[1].append(markM)
-            self.masterArray[1].append(rowanN)
-            self.masterArray[1].append(kevinP)
-            self.masterArray[1].append(willR)
-            self.masterArray[1].append(heatherT)
-            self.masterArray[1].append(tuanV)
-            self.masterArray[1].append(zackW)
-            self.masterArray[1].append(saraW)
-            self.masterArray[1].append(hiongyaoZ)
+//            self.masterArray[1].append(nateB)
+//            self.masterArray[1].append(matthewB)
+//            self.masterArray[1].append(jeffC)
+//            self.masterArray[1].append(christieF)
+//            self.masterArray[1].append(davidF)
+//            self.masterArray[1].append(adrianG)
+//            self.masterArray[1].append(jakeH)
+//            self.masterArray[1].append(shamsK)
+//            self.masterArray[1].append(cameronK)
+//            self.masterArray[1].append(koriK)
+//            self.masterArray[1].append(parkerL)
+//            self.masterArray[1].append(nathanM)
+//            self.masterArray[1].append(caseyM)
+//            self.masterArray[1].append(brendanM)
+//            self.masterArray[1].append(brianM)
+//            self.masterArray[1].append(markM)
+//            self.masterArray[1].append(rowanN)
+//            self.masterArray[1].append(kevinP)
+//            self.masterArray[1].append(willR)
+//            self.masterArray[1].append(heatherT)
+//            self.masterArray[1].append(tuanV)
+//            self.masterArray[1].append(zackW)
+//            self.masterArray[1].append(saraW)
+//            self.masterArray[1].append(hiongyaoZ)
             
             
         }
@@ -302,14 +301,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if instructorArray.isEmpty {
             
-            var johnC = Person(firstName: "John", lastName: "Clem", isTeacher: true)
-            var bradJ = Person(firstName: "Brad", lastName: "Johnson", isTeacher: true)
+            var johnC = Person(firstName: "John", lastName: "Clem", imageFor: UIImage(named: "stack21"))
+            var bradJ = Person(firstName: "Brad", lastName: "Johnson", imageFor: UIImage(named: "stack21"))
             
             self.instructorArray.append(johnC)
             self.instructorArray.append(bradJ)
             
-            self.masterArray[0].append(johnC)
-            self.masterArray[0].append(bradJ)
+//            self.masterArray[0].append(johnC)
+//            self.masterArray[0].append(bradJ)
             
             
         }

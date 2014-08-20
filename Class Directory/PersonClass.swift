@@ -13,13 +13,13 @@ class Person : NSObject {
     
     var firstName : String
     var lastName : String
-    var imageFor : UIImage?
-    var isTeacher : Bool?
+    var imageFor : UIImage = UIImage(named: "stack21")
+//    var isTeacher : Bool?
     
-    init (firstName : String, lastName: String, isTeacher : Bool) {
+    init (firstName : String, lastName: String, imageFor: UIImage/*, isTeacher : Bool?*/) {
         self.firstName = firstName
         self.lastName = lastName
-        self.isTeacher = isTeacher
+//        self.isTeacher = isTeacher
     }
     
     func fullName() -> String {
@@ -29,15 +29,16 @@ class Person : NSObject {
     func encodeWithCoder(aCoder: NSCoder!) {
         aCoder.encodeObject(firstName, forKey: "firstName")
         aCoder.encodeObject(lastName, forKey: "lastName")
-//        aCoder.encodeObject(imageFor!, forKey: "imageFor")
-        aCoder.encodeObject(isTeacher!, forKey: "isTeacher")
+        aCoder.encodeObject(imageFor, forKey: "imageFor")
+//                aCoder.encodeObject(UIImagePNGRepresentation(self.imageFor), forKey: "imageFor")
+//        aCoder.encodeObject(isTeacher!, forKey: "isTeacher")
     }
     
     init (coder aDecoder: NSCoder!) {
         self.firstName = aDecoder.decodeObjectForKey("firstName") as String
         self.lastName = aDecoder.decodeObjectForKey("lastName") as String
-//        self.imageFor! = aDecoder.decodeObjectForKey("imageFor") as UIImage
-        self.isTeacher! = aDecoder.decodeObjectForKey("isTeacher") as Bool
+        self.imageFor = aDecoder.decodeObjectForKey("imageFor") as UIImage
+//        self.isTeacher! = aDecoder.decodeObjectForKey("isTeacher") as Bool
     }
     
     

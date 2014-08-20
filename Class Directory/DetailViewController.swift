@@ -10,6 +10,8 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    var selectedPerson : Person?
+    
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var instructorSwitch: UISwitch!
@@ -43,6 +45,15 @@ class DetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
 
     }
+    
+    @IBAction func instructorSwitchSwitched(sender: UISwitch) {
+        if self.instructorSwitch.on {
+            println("on")
+        } else {
+            println("on")
+        }
+    }
+    
     
 
 }

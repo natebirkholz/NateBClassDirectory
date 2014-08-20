@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6205" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qud-6S-7u9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qud-6S-7u9">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6198"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
         <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -43,6 +43,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oed-ij-6Hq"/>
+                    <connections>
+                        <outlet property="tableViewMain" destination="ZVb-jb-BT5" id="46I-YU-hW2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
@@ -60,47 +63,66 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ryW-XZ-Req">
-                                <rect key="frame" x="175" y="72" width="250" height="250"/>
-                            </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DQt-wn-hRx">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DQt-wn-hRx">
                                 <rect key="frame" x="175" y="347" width="250" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gm7-0b-2zn">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gm7-0b-2zn">
                                 <rect key="frame" x="175" y="401" width="250" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="51P-aw-vjh">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="51P-aw-vjh">
                                 <rect key="frame" x="276" y="474" width="51" height="31"/>
+                                <connections>
+                                    <action selector="instructorSwitchSwitched:" destination="p7B-ja-TLe" eventType="valueChanged" id="WmH-Mj-OTr"/>
+                                </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Is this person an instructor?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNW-pW-h1K">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Is this person an instructor?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNW-pW-h1K">
                                 <rect key="frame" x="193" y="445" width="214" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Yes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dk9-yW-nzL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Yes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dk9-yW-nzL">
                                 <rect key="frame" x="333" y="479" width="27" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jt-G9-CdL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="No" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jt-G9-CdL">
                                 <rect key="frame" x="245" y="479" width="23" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ryW-XZ-Req">
+                                <rect key="frame" x="175" y="72" width="250" height="250"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="51P-aw-vjh" firstAttribute="leading" secondItem="7jt-G9-CdL" secondAttribute="trailing" constant="8" id="2nv-f2-abr"/>
+                            <constraint firstItem="51P-aw-vjh" firstAttribute="top" secondItem="TNW-pW-h1K" secondAttribute="bottom" constant="8" id="5UM-n5-xsM"/>
+                            <constraint firstItem="ryW-XZ-Req" firstAttribute="top" secondItem="4Ec-nb-41C" secondAttribute="bottom" constant="8" id="EO2-dx-OO3"/>
+                            <constraint firstItem="DQt-wn-hRx" firstAttribute="top" secondItem="ryW-XZ-Req" secondAttribute="bottom" constant="25" id="GQR-Fw-hNc"/>
+                            <constraint firstItem="dk9-yW-nzL" firstAttribute="leading" secondItem="51P-aw-vjh" secondAttribute="trailing" constant="8" id="ICx-V1-Ecv"/>
+                            <constraint firstAttribute="centerX" secondItem="ryW-XZ-Req" secondAttribute="centerX" id="L4a-2z-pQM"/>
+                            <constraint firstAttribute="centerX" secondItem="DQt-wn-hRx" secondAttribute="centerX" id="U7o-m2-0H3"/>
+                            <constraint firstItem="DQt-wn-hRx" firstAttribute="width" secondItem="Gm7-0b-2zn" secondAttribute="width" id="Yld-NJ-q41"/>
+                            <constraint firstItem="Gm7-0b-2zn" firstAttribute="top" secondItem="DQt-wn-hRx" secondAttribute="bottom" constant="24" id="ZMf-qy-Iax"/>
+                            <constraint firstItem="TNW-pW-h1K" firstAttribute="top" secondItem="Gm7-0b-2zn" secondAttribute="bottom" constant="14" id="gK0-a0-xUZ"/>
+                            <constraint firstItem="DQt-wn-hRx" firstAttribute="width" secondItem="ryW-XZ-Req" secondAttribute="width" id="tay-JB-ebt"/>
+                            <constraint firstAttribute="centerX" secondItem="51P-aw-vjh" secondAttribute="centerX" id="vQR-Nd-XLK"/>
+                            <constraint firstAttribute="centerX" secondItem="TNW-pW-h1K" secondAttribute="centerX" id="xFm-SB-QJd"/>
+                            <constraint firstAttribute="centerX" secondItem="Gm7-0b-2zn" secondAttribute="centerX" id="zoG-Z3-3QZ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Detail Editor" id="G5u-xy-1wu"/>
                     <connections>
                         <outlet property="firstNameField" destination="DQt-wn-hRx" id="TWq-Jn-EYd"/>
-                        <outlet property="instructorSwitch" destination="51P-aw-vjh" id="X0O-Zp-Nru"/>
+                        <outlet property="instructorSwitch" destination="51P-aw-vjh" id="j7H-si-EO0"/>
                         <outlet property="lastNameField" destination="Gm7-0b-2zn" id="JFr-Mp-IXg"/>
                     </connections>
                 </viewController>

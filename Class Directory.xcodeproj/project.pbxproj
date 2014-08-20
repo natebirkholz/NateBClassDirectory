@@ -13,6 +13,7 @@
 		4386580C19A40073008C643A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4386580B19A40073008C643A /* Images.xcassets */; };
 		4386581819A40073008C643A /* Class_DirectoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386581719A40073008C643A /* Class_DirectoryTests.swift */; };
 		4386582219A40B9F008C643A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386582119A40B9F008C643A /* DetailViewController.swift */; };
+		43D673B819A44A87001D5DE0 /* PersonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D673B719A44A87001D5DE0 /* PersonClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		4386581619A40073008C643A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4386581719A40073008C643A /* Class_DirectoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Class_DirectoryTests.swift; sourceTree = "<group>"; };
 		4386582119A40B9F008C643A /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		43D673B719A44A87001D5DE0 /* PersonClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				4386580B19A40073008C643A /* Images.xcassets */,
 				4386580219A40073008C643A /* Supporting Files */,
 				4386582119A40B9F008C643A /* DetailViewController.swift */,
+				43D673B719A44A87001D5DE0 /* PersonClass.swift */,
 			);
 			path = "Class Directory";
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4386582219A40B9F008C643A /* DetailViewController.swift in Sources */,
+				43D673B819A44A87001D5DE0 /* PersonClass.swift in Sources */,
 				4386580719A40073008C643A /* ViewController.swift in Sources */,
 				4386580519A40073008C643A /* AppDelegate.swift in Sources */,
 			);
@@ -399,6 +403,7 @@
 				4386581D19A40074008C643A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4386581E19A40074008C643A /* Build configuration list for PBXNativeTarget "Class DirectoryTests" */ = {
 			isa = XCConfigurationList;
@@ -407,6 +412,7 @@
 				4386582019A40074008C643A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

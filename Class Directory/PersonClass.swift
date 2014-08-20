@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Nate Birkholz. All rights reserved.
 //
 
+// http://www.flaticon.com
+
 import Foundation
 import UIKit
 
@@ -13,10 +15,10 @@ class Person : NSObject {
     
     var firstName : String
     var lastName : String
-    var imageFor : UIImage = UIImage(named: "stack21")
+    var imageFor : UIImage = UIImage()
 //    var isTeacher : Bool?
     
-    init (firstName : String, lastName: String, imageFor: UIImage/*, isTeacher : Bool?*/) {
+    init (firstName : String, lastName: String/*, imageFor: UIImage, isTeacher : Bool?*/) {
         self.firstName = firstName
         self.lastName = lastName
 //        self.isTeacher = isTeacher

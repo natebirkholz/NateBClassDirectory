@@ -20,16 +20,25 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 //  #MARK: Lifecycle
     
     override func viewDidLoad() {
+        
+
+        
         super.viewDidLoad()
             println("DVC1")
         self.firstNameField.text = self.selectedPerson?.firstName
             println("DVC2")
         self.lastNameField.text = self.selectedPerson?.lastName
             println("DVC3")
+        if self.selectedPerson?.imageFor.imageAsset == nil {
+            println("Thats the problem")
+            self.imageView.image = UIImage(named: "stack21")
+        } else {
+        
         var myImage = self.selectedPerson?.imageFor  // UIImage(named: "stack21")
             println("DVC4")
         self.imageView.image = myImage
             println("DVC5")
+        }
 
     }
     

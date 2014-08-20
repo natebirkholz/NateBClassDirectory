@@ -195,7 +195,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 let vc = segue.destinationViewController as DetailViewController
                 println("VC2")
                 vc.selectedPerson = selectedPerson
-                println("VC3")
+                println("VC3 : value is \(selectedPerson.imageFor.imageAsset)")
                 
             } else {
                 
@@ -204,7 +204,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 let vc = segue.destinationViewController as DetailViewController
                 println("VC5")
                 vc.selectedPerson = selectedPerson
-                println("VC6")
+                println("VC6 : value is \(selectedPerson.imageFor)")
             }
             
         }
@@ -218,30 +218,55 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if peopleArray.isEmpty {
             
-            var nateB = Person(firstName: "Nate", lastName: "Birkholz", imageFor: UIImage(named: "stack21"))
-            var matthewB = Person(firstName: "Matthew", lastName: "Brightbill", imageFor: UIImage(named: "stack21"))
-            var jeffC = Person(firstName: "Jeff", lastName: "Chavez", imageFor: UIImage(named: "stack21"))
-            var christieF = Person(firstName: "Christie", lastName: "Ferderer", imageFor: UIImage(named: "stack21"))
-            var davidF = Person(firstName: "David", lastName: "Fry", imageFor: UIImage(named: "stack21"))
-            var adrianG = Person(firstName: "Adrian", lastName: "Gherle", imageFor: UIImage(named: "stack21"))
-            var jakeH = Person(firstName: "Jake", lastName: "Hawken", imageFor: UIImage(named: "stack21"))
-            var shamsK = Person(firstName: "Shams", lastName: "Kazi", imageFor: UIImage(named: "stack21"))
-            var cameronK = Person(firstName: "Cameron", lastName: "Klein", imageFor: UIImage(named: "stack21"))
-            var koriK = Person(firstName: "Kori", lastName: "Kolodziejczak", imageFor: UIImage(named: "stack21"))
-            var parkerL = Person(firstName: "Parker", lastName: "Lewis", imageFor: UIImage(named: "stack21"))
-            var nathanM = Person(firstName: "Nathan", lastName: "Ma", imageFor: UIImage(named: "stack21"))
-            var caseyM = Person(firstName: "Casey", lastName: "MacPhee", imageFor: UIImage(named: "stack21"))
-            var brendanM = Person(firstName: "Brendan", lastName: "McAleer", imageFor: UIImage(named: "stack21"))
-            var brianM = Person(firstName: "Brian", lastName: "Mendez", imageFor: UIImage(named: "stack21"))
-            var markM = Person(firstName: "Mark", lastName: "Morris", imageFor: UIImage(named: "stack21"))
-            var rowanN = Person(firstName: "Rowan", lastName: "North", imageFor: UIImage(named: "stack21"))
-            var kevinP = Person(firstName: "Kevin", lastName: "Pham", imageFor: UIImage(named: "stack21"))
-            var willR = Person(firstName: "Will", lastName: "Richman", imageFor: UIImage(named: "stack21"))
-            var heatherT = Person(firstName: "Heather", lastName: "Thueringer", imageFor: UIImage(named: "stack21"))
-            var tuanV = Person(firstName: "Tuan", lastName: "Vu", imageFor: UIImage(named: "stack21"))
-            var zackW = Person(firstName: "Zack", lastName: "Walkingstick", imageFor: UIImage(named: "stack21"))
-            var saraW = Person(firstName: "Sara", lastName: "Wong", imageFor: UIImage(named: "stack21"))
-            var hiongyaoZ = Person(firstName: "Hongyao", lastName: "Zhang", imageFor: UIImage(named: "stack21"))
+//            var nateB = Person(firstName: "Nate", lastName: "Birkholz", imageFor: UIImage(named: "stack21"))
+//            var matthewB = Person(firstName: "Matthew", lastName: "Brightbill", imageFor: UIImage(named: "stack21"))
+//            var jeffC = Person(firstName: "Jeff", lastName: "Chavez", imageFor: UIImage(named: "stack21"))
+//            var christieF = Person(firstName: "Christie", lastName: "Ferderer", imageFor: UIImage(named: "stack21"))
+//            var davidF = Person(firstName: "David", lastName: "Fry", imageFor: UIImage(named: "stack21"))
+//            var adrianG = Person(firstName: "Adrian", lastName: "Gherle", imageFor: UIImage(named: "stack21"))
+//            var jakeH = Person(firstName: "Jake", lastName: "Hawken", imageFor: UIImage(named: "stack21"))
+//            var shamsK = Person(firstName: "Shams", lastName: "Kazi", imageFor: UIImage(named: "stack21"))
+//            var cameronK = Person(firstName: "Cameron", lastName: "Klein", imageFor: UIImage(named: "stack21"))
+//            var koriK = Person(firstName: "Kori", lastName: "Kolodziejczak", imageFor: UIImage(named: "stack21"))
+//            var parkerL = Person(firstName: "Parker", lastName: "Lewis", imageFor: UIImage(named: "stack21"))
+//            var nathanM = Person(firstName: "Nathan", lastName: "Ma", imageFor: UIImage(named: "stack21"))
+//            var caseyM = Person(firstName: "Casey", lastName: "MacPhee", imageFor: UIImage(named: "stack21"))
+//            var brendanM = Person(firstName: "Brendan", lastName: "McAleer", imageFor: UIImage(named: "stack21"))
+//            var brianM = Person(firstName: "Brian", lastName: "Mendez", imageFor: UIImage(named: "stack21"))
+//            var markM = Person(firstName: "Mark", lastName: "Morris", imageFor: UIImage(named: "stack21"))
+//            var rowanN = Person(firstName: "Rowan", lastName: "North", imageFor: UIImage(named: "stack21"))
+//            var kevinP = Person(firstName: "Kevin", lastName: "Pham", imageFor: UIImage(named: "stack21"))
+//            var willR = Person(firstName: "Will", lastName: "Richman", imageFor: UIImage(named: "stack21"))
+//            var heatherT = Person(firstName: "Heather", lastName: "Thueringer", imageFor: UIImage(named: "stack21"))
+//            var tuanV = Person(firstName: "Tuan", lastName: "Vu", imageFor: UIImage(named: "stack21"))
+//            var zackW = Person(firstName: "Zack", lastName: "Walkingstick", imageFor: UIImage(named: "stack21"))
+//            var saraW = Person(firstName: "Sara", lastName: "Wong", imageFor: UIImage(named: "stack21"))
+//            var hiongyaoZ = Person(firstName: "Hongyao", lastName: "Zhang", imageFor: UIImage(named: "stack21"))
+            
+            var nateB = Person(firstName: "Nate", lastName: "Birkholz")
+            var matthewB = Person(firstName: "Matthew", lastName: "Brightbill")
+            var jeffC = Person(firstName: "Jeff", lastName: "Chavez")
+            var christieF = Person(firstName: "Christie", lastName: "Ferderer")
+            var davidF = Person(firstName: "David", lastName: "Fry")
+            var adrianG = Person(firstName: "Adrian", lastName: "Gherle")
+            var jakeH = Person(firstName: "Jake", lastName: "Hawken")
+            var shamsK = Person(firstName: "Shams", lastName: "Kazi")
+            var cameronK = Person(firstName: "Cameron", lastName: "Klein")
+            var koriK = Person(firstName: "Kori", lastName: "Kolodziejczak")
+            var parkerL = Person(firstName: "Parker", lastName: "Lewis")
+            var nathanM = Person(firstName: "Nathan", lastName: "Ma")
+            var caseyM = Person(firstName: "Casey", lastName: "MacPhee")
+            var brendanM = Person(firstName: "Brendan", lastName: "McAleer")
+            var brianM = Person(firstName: "Brian", lastName: "Mendez")
+            var markM = Person(firstName: "Mark", lastName: "Morris")
+            var rowanN = Person(firstName: "Rowan", lastName: "North")
+            var kevinP = Person(firstName: "Kevin", lastName: "Pham")
+            var willR = Person(firstName: "Will", lastName: "Richman")
+            var heatherT = Person(firstName: "Heather", lastName: "Thueringer")
+            var tuanV = Person(firstName: "Tuan", lastName: "Vu")
+            var zackW = Person(firstName: "Zack", lastName: "Walkingstick")
+            var saraW = Person(firstName: "Sara", lastName: "Wong")
+            var hiongyaoZ = Person(firstName: "Hongyao", lastName: "Zhang")
             
             self.peopleArray.append(nateB)
             self.peopleArray.append(matthewB)
@@ -301,8 +326,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if instructorArray.isEmpty {
             
-            var johnC = Person(firstName: "John", lastName: "Clem", imageFor: UIImage(named: "stack21"))
-            var bradJ = Person(firstName: "Brad", lastName: "Johnson", imageFor: UIImage(named: "stack21"))
+//            var johnC = Person(firstName: "John", lastName: "Clem", imageFor: UIImage(named: "stack21"))
+//            var bradJ = Person(firstName: "Brad", lastName: "Johnson", imageFor: UIImage(named: "stack21"))
+
+            var johnC = Person(firstName: "John", lastName: "Clem")
+            var bradJ = Person(firstName: "Brad", lastName: "Johnson")
             
             self.instructorArray.append(johnC)
             self.instructorArray.append(bradJ)

@@ -29,6 +29,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             println("DVC2")
         self.lastNameField.text = self.selectedPerson?.lastName
             println("DVC3")
+        self.imageView.layer.masksToBounds = true
+        self.imageView.layer.cornerRadius = 50.0
+        
+        
         if self.selectedPerson?.imageFor.imageAsset == nil {
             println("Thats the problem")
             self.imageView.image = UIImage(named: "stack21")
@@ -45,7 +49,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        
+
 
     }
 
@@ -85,6 +89,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     
     @IBAction func photoButtonPressed(sender: UIButton) {
+        self.holdThis()
             println("DVC6")
         var imagePickerController = UIImagePickerController()
             println("DVC7")
@@ -112,5 +117,46 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    func holdThis() {
+        var alert = UIAlertController(title: "Title", message: "message", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+            (action) in
+                println("things here")
+            })
+        alert.addAction(UIAlertAction(title: "Load from library", style: UIAlertActionStyle.Destructive) {
+            (action) in
+            println("stuff here")
+            //code to choose library here
+        })
+    }
+    
+//    func presentCamera()
+//    {
+//        // Check for the camera device
+//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary)
+//        {
+//            println("YES")
+//            var cameraUI = UIImagePickerController()
+//            cameraUI.delegate = self
+//            cameraUI.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+//            
+//            // If true you can pinch and zoom to make a diffrent image
+//            cameraUI.allowsEditing = true
+//            // Pops the camera UI on screen
+//            self.presentViewController(cameraUI, animated: true, completion: nil)
+//        }
+//        else
+//        {
+//            var alert = UIAlertView()
+//            alert.title = "No Device"
+//            alert.message = "Your device does not have the proper camera"
+//            alert.addButtonWithTitle("OK")
+//            alert.show()
+//        }
+//        
+//        
+//    }
 
 }

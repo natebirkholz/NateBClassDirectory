@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -16,7 +17,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var instructorArray = [Person]()
     var plistpath : String?
     var instructorpath : String?
-//    var masterArray = [[Person](), [Person]()] as Array
     
     // #MARK: Lifecycle
                             
@@ -41,8 +41,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.tableViewMain.reloadData()
         
-        [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
-        [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
+//        [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
+//        [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
+        
+        var appDel : AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
+        var context : NSManagedObjectContext = appDel.managedObjectContext!
+        
+        context.save(nil)
+
+        println("Object Saved")
         
     }
     
@@ -63,16 +70,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             if !fileManager.fileExistsAtPath(plistpath!){  //writing Plist file
                 
+                println("no Plist file found at \(plistpath)")
+                
                 self.createInitialPeople()
                 
                 println("Saving to Plist")
                 
-                [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
+//                [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
                 
 //                println("writing to path \(plistpath)")
                 
                 
             } else {            //Reading Plist file
+                
                 println("\n\nPlist file found at \(plistpath)")
                 
                 peopleArray = NSKeyedUnarchiver.unarchiveObjectWithFile(plistpath!) as [Person]
@@ -100,16 +110,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             if !fileManager.fileExistsAtPath(instructorpath!){  //writing Plist file
                 
+                println("no Plist file found at \(instructorpath)")
+                
                 self.createInitialInstructors()
                 
                 println("Saving to Plist")
-                
-                [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
+//
+//                [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
                 
 //                println("writing to path \(instructorpath)")
                 
                 
             } else {            //Reading Plist file
+                
                 println("\n\nPlist file found at \(instructorpath)")
                 
                 instructorArray = NSKeyedUnarchiver.unarchiveObjectWithFile(instructorpath!) as [Person]
@@ -123,11 +136,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
                 return 2
-        
-        
-//        println("Number of sections is \(self.masterArray.count)")
-//        return self.masterArray.count
-        
         
     }
     
@@ -150,7 +158,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 return self.peopleArray.count
                 }
         
-//        return self.masterArray[section].count
         
 //        let teacherCount = peopleArray.filter { (person : Person) -> Bool in
 //            return person.isTeacher!
@@ -162,19 +169,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        
         let cell = tableViewMain.dequeueReusableCellWithIdentifier("CellMain", forIndexPath: indexPath) as UITableViewCell
         
         if indexPath.section == 0 {
             var personForRow = self.instructorArray[indexPath.row]
             cell.textLabel.text = personForRow.fullName()
-        } else {
             
+        } else {
             var personForRow = self.peopleArray[indexPath.row]
             cell.textLabel.text = personForRow.fullName()
+            
         }
-        
-//        println("cell is \(cell), indexpath is \(indexPath)")
         
         return cell
         
@@ -186,9 +191,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         if segue.identifier == "detailVCSegue" {
             if self.tableViewMain.indexPathForSelectedRow().section == 0 {
-                
-//                var selectedArray = self.masterArray[self.tableViewMain.indexPathForSelectedRow().section]
-//                var selectedPerson = selectedArray[self.tableViewMain.indexPathForSelectedRow().row]
                 
                 var selectedPerson = self.instructorArray[self.tableViewMain.indexPathForSelectedRow().row]
                 println("VC1")
@@ -218,55 +220,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if peopleArray.isEmpty {
             
-//            var nateB = Person(firstName: "Nate", lastName: "Birkholz", imageFor: UIImage(named: "stack21"))
-//            var matthewB = Person(firstName: "Matthew", lastName: "Brightbill", imageFor: UIImage(named: "stack21"))
-//            var jeffC = Person(firstName: "Jeff", lastName: "Chavez", imageFor: UIImage(named: "stack21"))
-//            var christieF = Person(firstName: "Christie", lastName: "Ferderer", imageFor: UIImage(named: "stack21"))
-//            var davidF = Person(firstName: "David", lastName: "Fry", imageFor: UIImage(named: "stack21"))
-//            var adrianG = Person(firstName: "Adrian", lastName: "Gherle", imageFor: UIImage(named: "stack21"))
-//            var jakeH = Person(firstName: "Jake", lastName: "Hawken", imageFor: UIImage(named: "stack21"))
-//            var shamsK = Person(firstName: "Shams", lastName: "Kazi", imageFor: UIImage(named: "stack21"))
-//            var cameronK = Person(firstName: "Cameron", lastName: "Klein", imageFor: UIImage(named: "stack21"))
-//            var koriK = Person(firstName: "Kori", lastName: "Kolodziejczak", imageFor: UIImage(named: "stack21"))
-//            var parkerL = Person(firstName: "Parker", lastName: "Lewis", imageFor: UIImage(named: "stack21"))
-//            var nathanM = Person(firstName: "Nathan", lastName: "Ma", imageFor: UIImage(named: "stack21"))
-//            var caseyM = Person(firstName: "Casey", lastName: "MacPhee", imageFor: UIImage(named: "stack21"))
-//            var brendanM = Person(firstName: "Brendan", lastName: "McAleer", imageFor: UIImage(named: "stack21"))
-//            var brianM = Person(firstName: "Brian", lastName: "Mendez", imageFor: UIImage(named: "stack21"))
-//            var markM = Person(firstName: "Mark", lastName: "Morris", imageFor: UIImage(named: "stack21"))
-//            var rowanN = Person(firstName: "Rowan", lastName: "North", imageFor: UIImage(named: "stack21"))
-//            var kevinP = Person(firstName: "Kevin", lastName: "Pham", imageFor: UIImage(named: "stack21"))
-//            var willR = Person(firstName: "Will", lastName: "Richman", imageFor: UIImage(named: "stack21"))
-//            var heatherT = Person(firstName: "Heather", lastName: "Thueringer", imageFor: UIImage(named: "stack21"))
-//            var tuanV = Person(firstName: "Tuan", lastName: "Vu", imageFor: UIImage(named: "stack21"))
-//            var zackW = Person(firstName: "Zack", lastName: "Walkingstick", imageFor: UIImage(named: "stack21"))
-//            var saraW = Person(firstName: "Sara", lastName: "Wong", imageFor: UIImage(named: "stack21"))
-//            var hiongyaoZ = Person(firstName: "Hongyao", lastName: "Zhang", imageFor: UIImage(named: "stack21"))
             
-            var nateB = Person(firstName: "Nate", lastName: "Birkholz")
-            var matthewB = Person(firstName: "Matthew", lastName: "Brightbill")
-            var jeffC = Person(firstName: "Jeff", lastName: "Chavez")
-            var christieF = Person(firstName: "Christie", lastName: "Ferderer")
-            var davidF = Person(firstName: "David", lastName: "Fry")
-            var adrianG = Person(firstName: "Adrian", lastName: "Gherle")
-            var jakeH = Person(firstName: "Jake", lastName: "Hawken")
-            var shamsK = Person(firstName: "Shams", lastName: "Kazi")
-            var cameronK = Person(firstName: "Cameron", lastName: "Klein")
-            var koriK = Person(firstName: "Kori", lastName: "Kolodziejczak")
-            var parkerL = Person(firstName: "Parker", lastName: "Lewis")
-            var nathanM = Person(firstName: "Nathan", lastName: "Ma")
-            var caseyM = Person(firstName: "Casey", lastName: "MacPhee")
-            var brendanM = Person(firstName: "Brendan", lastName: "McAleer")
-            var brianM = Person(firstName: "Brian", lastName: "Mendez")
-            var markM = Person(firstName: "Mark", lastName: "Morris")
-            var rowanN = Person(firstName: "Rowan", lastName: "North")
-            var kevinP = Person(firstName: "Kevin", lastName: "Pham")
-            var willR = Person(firstName: "Will", lastName: "Richman")
-            var heatherT = Person(firstName: "Heather", lastName: "Thueringer")
-            var tuanV = Person(firstName: "Tuan", lastName: "Vu")
-            var zackW = Person(firstName: "Zack", lastName: "Walkingstick")
-            var saraW = Person(firstName: "Sara", lastName: "Wong")
-            var hiongyaoZ = Person(firstName: "Hongyao", lastName: "Zhang")
+            var nateB = Person(firstName: "Nate", lastName: "Birkholz", isTeacher: false)
+            var matthewB = Person(firstName: "Matthew", lastName: "Brightbill", isTeacher: false)
+            var jeffC = Person(firstName: "Jeff", lastName: "Chavez", isTeacher: false)
+            var christieF = Person(firstName: "Christie", lastName: "Ferderer", isTeacher: false)
+            var davidF = Person(firstName: "David", lastName: "Fry", isTeacher: false)
+            var adrianG = Person(firstName: "Adrian", lastName: "Gherle", isTeacher: false)
+            var jakeH = Person(firstName: "Jake", lastName: "Hawken", isTeacher: false)
+            var shamsK = Person(firstName: "Shams", lastName: "Kazi", isTeacher: false)
+            var cameronK = Person(firstName: "Cameron", lastName: "Klein", isTeacher: false)
+            var koriK = Person(firstName: "Kori", lastName: "Kolodziejczak", isTeacher: false)
+            var parkerL = Person(firstName: "Parker", lastName: "Lewis", isTeacher: false)
+            var nathanM = Person(firstName: "Nathan", lastName: "Ma", isTeacher: false)
+            var caseyM = Person(firstName: "Casey", lastName: "MacPhee", isTeacher: false)
+            var brendanM = Person(firstName: "Brendan", lastName: "McAleer", isTeacher: false)
+            var brianM = Person(firstName: "Brian", lastName: "Mendez", isTeacher: false)
+            var markM = Person(firstName: "Mark", lastName: "Morris", isTeacher: false)
+            var rowanN = Person(firstName: "Rowan", lastName: "North", isTeacher: false)
+            var kevinP = Person(firstName: "Kevin", lastName: "Pham", isTeacher: false)
+            var willR = Person(firstName: "Will", lastName: "Richman", isTeacher: false)
+            var heatherT = Person(firstName: "Heather", lastName: "Thueringer", isTeacher: false)
+            var tuanV = Person(firstName: "Tuan", lastName: "Vu", isTeacher: false)
+            var zackW = Person(firstName: "Zack", lastName: "Walkingstick", isTeacher: false)
+            var saraW = Person(firstName: "Sara", lastName: "Wong", isTeacher: false)
+            var hiongyaoZ = Person(firstName: "Hongyao", lastName: "Zhang", isTeacher: false)
             
             self.peopleArray.append(nateB)
             self.peopleArray.append(matthewB)
@@ -293,51 +271,56 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.peopleArray.append(saraW)
             self.peopleArray.append(hiongyaoZ)
             
-//            self.masterArray[1].append(nateB)
-//            self.masterArray[1].append(matthewB)
-//            self.masterArray[1].append(jeffC)
-//            self.masterArray[1].append(christieF)
-//            self.masterArray[1].append(davidF)
-//            self.masterArray[1].append(adrianG)
-//            self.masterArray[1].append(jakeH)
-//            self.masterArray[1].append(shamsK)
-//            self.masterArray[1].append(cameronK)
-//            self.masterArray[1].append(koriK)
-//            self.masterArray[1].append(parkerL)
-//            self.masterArray[1].append(nathanM)
-//            self.masterArray[1].append(caseyM)
-//            self.masterArray[1].append(brendanM)
-//            self.masterArray[1].append(brianM)
-//            self.masterArray[1].append(markM)
-//            self.masterArray[1].append(rowanN)
-//            self.masterArray[1].append(kevinP)
-//            self.masterArray[1].append(willR)
-//            self.masterArray[1].append(heatherT)
-//            self.masterArray[1].append(tuanV)
-//            self.masterArray[1].append(zackW)
-//            self.masterArray[1].append(saraW)
-//            self.masterArray[1].append(hiongyaoZ)
-            
+            for Person in peopleArray {
+                
+                var appDel : AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
+                var context : NSManagedObjectContext = appDel.managedObjectContext!
+                
+                var newUser = NSEntityDescription.insertNewObjectForEntityForName("PeopleList", inManagedObjectContext: context) as NSManagedObject
+                newUser.setValue(Person.firstName, forKey: "firstName")
+                newUser.setValue(Person.lastName, forKey: "lastName")
+                newUser.setPrimitiveValue(Person.isTeacher, forKey: "isTeacher")
+                
+                context.save(nil)
+                
+                println(newUser)
+                println("Object Saved")
+                
+            }
             
         }
+        
     }
 
     func createInitialInstructors() {
         
         if instructorArray.isEmpty {
-            
-//            var johnC = Person(firstName: "John", lastName: "Clem", imageFor: UIImage(named: "stack21"))
-//            var bradJ = Person(firstName: "Brad", lastName: "Johnson", imageFor: UIImage(named: "stack21"))
 
-            var johnC = Person(firstName: "John", lastName: "Clem")
-            var bradJ = Person(firstName: "Brad", lastName: "Johnson")
+            var johnC = Person(firstName: "John", lastName: "Clem", isTeacher: true)
+            var bradJ = Person(firstName: "Brad", lastName: "Johnson", isTeacher: true)
             
             self.instructorArray.append(johnC)
             self.instructorArray.append(bradJ)
             
-//            self.masterArray[0].append(johnC)
-//            self.masterArray[0].append(bradJ)
             
+            for Person in instructorArray {
+                
+                
+                var appDel : AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
+                var context : NSManagedObjectContext = appDel.managedObjectContext!
+                
+                var newUser = NSEntityDescription.insertNewObjectForEntityForName("PeopleList", inManagedObjectContext: context) as NSManagedObject
+                
+                newUser.setValue(Person.firstName, forKey: "firstName")
+                newUser.setValue(Person.lastName, forKey: "lastName")
+                newUser.setValue(Person.isTeacher?.boolValue, forKey: "isTeacher")
+                
+                context.save(nil)
+                
+                println(newUser)
+                println("Object Saved")
+                
+            }
             
         }
         

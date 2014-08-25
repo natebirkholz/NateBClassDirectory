@@ -10,18 +10,19 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class Person : NSObject {
     
     var firstName : String
     var lastName : String
     var imageFor : UIImage = UIImage()
-//    var isTeacher : Bool?
+    var isTeacher : Bool?
     
-    init (firstName : String, lastName: String/*, imageFor: UIImage, isTeacher : Bool?*/) {
+    init (firstName : String, lastName: String, isTeacher : Bool?) {
         self.firstName = firstName
         self.lastName = lastName
-//        self.isTeacher = isTeacher
+        self.isTeacher = isTeacher
     }
     
     func fullName() -> String {

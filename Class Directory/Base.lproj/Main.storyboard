@@ -42,7 +42,13 @@
                             <constraint firstItem="ZVb-jb-BT5" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-62" id="oj1-ew-g2G"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="oed-ij-6Hq"/>
+                    <navigationItem key="navigationItem" id="oed-ij-6Hq">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="nCe-D1-Fdr">
+                            <connections>
+                                <segue destination="p7B-ja-TLe" kind="show" identifier="create" id="6dW-VH-AAU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableViewMain" destination="ZVb-jb-BT5" id="46I-YU-hW2"/>
                     </connections>
@@ -170,4 +176,7 @@
     <resources>
         <image name="stack21.png" width="256" height="256"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="6dW-VH-AAU"/>
+    </inferredMetricsTieBreakers>
 </document>

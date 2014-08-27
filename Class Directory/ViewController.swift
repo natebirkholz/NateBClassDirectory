@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate {
     
     @IBOutlet weak var tableViewMain: UITableView!
 
@@ -17,6 +17,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var instructorArray = [Person]()
     var plistpath : String?
     var instructorpath : String?
+    
+    let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    var fetchedResultController: NSFetchedResultsController = NSFetchedResultsController()
     
     // #MARK: Lifecycle
                             
@@ -26,30 +29,60 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tableViewMain.dataSource = self
         self.tableViewMain.delegate = self
         self.createInstructorPlist()
+        println("A1")
         self.createPeoplePlist()
+        println("A2")
+
+        
+        fetchedResultController = getFetchedResultController()
+        
+        println("A3")
+
+        
+        fetchedResultController.delegate = self
+        
+        println("A4")
+
+        
+        fetchedResultController.performFetch(nil)
+        
+        println("A5")
+
 
         }
 
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        
+        println("B1")
+
 
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        println("C1")
+
+        
         self.tableViewMain.reloadData()
+        
+                println("C2")
         
 //        [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
 //        [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
         
-        var appDel : AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
-        var context : NSManagedObjectContext = appDel.managedObjectContext!
+//        var appDel : AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
+//        var context : NSManagedObjectContext = appDel.managedObjectContext!
         
-        context.save(nil)
+        context?.save(nil)
+        
+                println("C3")
 
         println("Object Saved")
+        
+                println("C4")
         
     }
     
@@ -70,13 +103,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             if !fileManager.fileExistsAtPath(plistpath!){  //writing Plist file
                 
-                println("no Plist file found at \(plistpath)")
+//                println("no Plist file found at \(plistpath)")
                 
                 self.createInitialPeople()
                 
                 println("Saving to Plist")
                 
-//                [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
+                [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
                 
 //                println("writing to path \(plistpath)")
                 
@@ -85,7 +118,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 println("\n\nPlist file found at \(plistpath)")
                 
-                peopleArray = NSKeyedUnarchiver.unarchiveObjectWithFile(plistpath!) as [Person]
+//                peopleArray = NSKeyedUnarchiver.unarchiveObjectWithFile(plistpath!) as [Person]
                 
                 }
             }
@@ -110,13 +143,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             if !fileManager.fileExistsAtPath(instructorpath!){  //writing Plist file
                 
-                println("no Plist file found at \(instructorpath)")
+//                println("no Plist file found at \(instructorpath)")
                 
                 self.createInitialInstructors()
                 
                 println("Saving to Plist")
 //
-//                [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
+                [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
                 
 //                println("writing to path \(instructorpath)")
                 
@@ -135,26 +168,32 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //    #MARK: Tableview
 
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+        
+                println("D1")
                 return 2
         
     }
     
     func tableView(tableView: UITableView!, titleForHeaderInSection section: Int) -> String! {
         if (section == 0) {
+                            println("Ea1")
             return "Instructors"
         } else {
+                            println("Eb1")
             return "Students"
         }
     }
     
     func tableView(tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60.0
+        return 70.0
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
                 if (section == 0) {
+                                    println("Fa1")
                     return self.instructorArray.count
                 } else {
+                    println("Fb1")
                 return self.peopleArray.count
                 }
         
@@ -171,13 +210,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         let cell = tableViewMain.dequeueReusableCellWithIdentifier("CellMain", forIndexPath: indexPath) as UITableViewCell
         
+        println("G1")
+        
         if indexPath.section == 0 {
+                                            println("Ga0")
             var personForRow = self.instructorArray[indexPath.row]
+                    println("Ga1")
             cell.textLabel.text = personForRow.fullName()
+                    println("Ga2")
             
         } else {
-            var personForRow = self.peopleArray[indexPath.row]
+//            var personForRow = self.peopleArray[indexPath.row]
+//            cell.textLabel.text = personForRow.fullName()
+            
+            println(indexPath)
+                                            println("Gb0")
+            println(indexPath)
+            let personForRow = fetchedResultController.objectAtIndexPath(indexPath) as Person!
+                                println("Gb1")
+            
             cell.textLabel.text = personForRow.fullName()
+                                            println("Gb2")
             
         }
         
@@ -209,6 +262,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 println("VC6 : value is \(selectedPerson.imageFor)")
             }
             
+        } else {
+            println("create")
         }
     }
 
@@ -273,20 +328,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             for Person in peopleArray {
                 
-                var appDel : AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
-                var context : NSManagedObjectContext = appDel.managedObjectContext!
+//                var appDel : AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
+//                var context : NSManagedObjectContext = appDel.managedObjectContext!
                 
                 var newUser = NSEntityDescription.insertNewObjectForEntityForName("PeopleList", inManagedObjectContext: context) as NSManagedObject
                 newUser.setValue(Person.firstName, forKey: "firstName")
                 newUser.setValue(Person.lastName, forKey: "lastName")
                 newUser.setPrimitiveValue(Person.isTeacher, forKey: "isTeacher")
                 
-                context.save(nil)
+                context!.save(nil)
                 
-                println(newUser)
-                println("Object Saved")
+//                println(newUser)
+                print("Object Saved ")
                 
             }
+            
+            println("newline")
             
         }
         
@@ -306,8 +363,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             for Person in instructorArray {
                 
                 
-                var appDel : AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
-                var context : NSManagedObjectContext = appDel.managedObjectContext!
+//                var appDel : AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
+//                var context : NSManagedObjectContext = appDel.managedObjectContext!
                 
                 var newUser = NSEntityDescription.insertNewObjectForEntityForName("PeopleList", inManagedObjectContext: context) as NSManagedObject
                 
@@ -315,15 +372,35 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 newUser.setValue(Person.lastName, forKey: "lastName")
                 newUser.setValue(Person.isTeacher?.boolValue, forKey: "isTeacher")
                 
-                context.save(nil)
+                context!.save(nil)
                 
-                println(newUser)
+//                println(newUser)
                 println("Object Saved")
                 
             }
             
         }
         
+    }
+    
+    func getFetchedResultController() -> NSFetchedResultsController {
+        fetchedResultController = NSFetchedResultsController(fetchRequest: personFetchRequest(), managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        let fetchMe = fetchedResultController.description.debugDescription
+        
+        println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!result is \(fetchMe)")
+        
+        return fetchedResultController
+    }
+    
+    func personFetchRequest() -> NSFetchRequest {
+        let fetchRequest = NSFetchRequest(entityName: "PeopleList")
+        let sortDescriptor = NSSortDescriptor(key: "lastName", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        println("sort descriptor is \(sortDescriptor)")
+        
+        return fetchRequest
     }
 
 

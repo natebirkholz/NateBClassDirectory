@@ -12,12 +12,15 @@ import Foundation
 import UIKit
 import CoreData
 
-class Person : NSObject {
+class PersonOld : NSObject {
     
     var firstName : String
     var lastName : String
     var imageFor : UIImage = UIImage()
     var isTeacher : Bool?
+    
+    let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+
     
     init (firstName : String, lastName: String, isTeacher : Bool?) {
         self.firstName = firstName

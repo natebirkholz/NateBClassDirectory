@@ -14,6 +14,7 @@
 		4386581819A40073008C643A /* Class_DirectoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386581719A40073008C643A /* Class_DirectoryTests.swift */; };
 		4386582219A40B9F008C643A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386582119A40B9F008C643A /* DetailViewController.swift */; };
 		438C5A2B19AA573D00D3A4BD /* Class_Directory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 438C5A2919AA573D00D3A4BD /* Class_Directory.xcdatamodeld */; };
+		43AF81B419AE96EE00A16993 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AF81B319AE96EE00A16993 /* Person.swift */; };
 		43B72B1819A5371600EB1A55 /* stack21.png in Resources */ = {isa = PBXBuildFile; fileRef = 43B72B1719A5371600EB1A55 /* stack21.png */; };
 		43D673B819A44A87001D5DE0 /* PersonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D673B719A44A87001D5DE0 /* PersonClass.swift */; };
 /* End PBXBuildFile section */
@@ -40,6 +41,8 @@
 		4386581719A40073008C643A /* Class_DirectoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Class_DirectoryTests.swift; sourceTree = "<group>"; };
 		4386582119A40B9F008C643A /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		438C5A2A19AA573D00D3A4BD /* Class_Directory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Class_Directory.xcdatamodel; sourceTree = "<group>"; };
+		43AF81B219AE96EC00A16993 /* Class Directory-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Class Directory-Bridging-Header.h"; sourceTree = "<group>"; };
+		43AF81B319AE96EE00A16993 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		43B72B1719A5371600EB1A55 /* stack21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stack21.png; sourceTree = "<group>"; };
 		43D673B719A44A87001D5DE0 /* PersonClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,6 +95,8 @@
 				4386582119A40B9F008C643A /* DetailViewController.swift */,
 				43D673B719A44A87001D5DE0 /* PersonClass.swift */,
 				438C5A2919AA573D00D3A4BD /* Class_Directory.xcdatamodeld */,
+				43AF81B319AE96EE00A16993 /* Person.swift */,
+				43AF81B219AE96EC00A16993 /* Class Directory-Bridging-Header.h */,
 			);
 			path = "Class Directory";
 			sourceTree = "<group>";
@@ -177,7 +182,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 438657FA19A40073008C643A /* Build configuration list for PBXProject "Class Directory" */;
+			buildConfigurationList = 438657FA19A40073008C643A /* Build configuration list for PBXProject "ClassDirectory" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -221,6 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43AF81B419AE96EE00A16993 /* Person.swift in Sources */,
 				4386582219A40B9F008C643A /* DetailViewController.swift in Sources */,
 				43D673B819A44A87001D5DE0 /* PersonClass.swift in Sources */,
 				4386580719A40073008C643A /* ViewController.swift in Sources */,
@@ -341,9 +347,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "Class Directory/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Class Directory/Class Directory-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -352,9 +361,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "Class Directory/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Class Directory/Class Directory-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -395,7 +406,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		438657FA19A40073008C643A /* Build configuration list for PBXProject "Class Directory" */ = {
+		438657FA19A40073008C643A /* Build configuration list for PBXProject "ClassDirectory" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4386581919A40073008C643A /* Debug */,

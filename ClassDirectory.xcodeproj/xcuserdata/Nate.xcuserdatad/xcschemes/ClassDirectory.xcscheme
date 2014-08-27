@@ -17,7 +17,7 @@
                BlueprintIdentifier = "438657FE19A40073008C643A"
                BuildableName = "Class Directory.app"
                BlueprintName = "Class Directory"
-               ReferencedContainer = "container:Class Directory.xcodeproj">
+               ReferencedContainer = "container:ClassDirectory.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "4386581019A40073008C643A"
                BuildableName = "Class DirectoryTests.xctest"
                BlueprintName = "Class DirectoryTests"
-               ReferencedContainer = "container:Class Directory.xcodeproj">
+               ReferencedContainer = "container:ClassDirectory.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -49,7 +49,7 @@
                BlueprintIdentifier = "4386581019A40073008C643A"
                BuildableName = "Class DirectoryTests.xctest"
                BlueprintName = "Class DirectoryTests"
-               ReferencedContainer = "container:Class Directory.xcodeproj">
+               ReferencedContainer = "container:ClassDirectory.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -59,7 +59,7 @@
             BlueprintIdentifier = "438657FE19A40073008C643A"
             BuildableName = "Class Directory.app"
             BlueprintName = "Class Directory"
-            ReferencedContainer = "container:Class Directory.xcodeproj">
+            ReferencedContainer = "container:ClassDirectory.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -78,7 +78,7 @@
             BlueprintIdentifier = "438657FE19A40073008C643A"
             BuildableName = "Class Directory.app"
             BlueprintName = "Class Directory"
-            ReferencedContainer = "container:Class Directory.xcodeproj">
+            ReferencedContainer = "container:ClassDirectory.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -96,7 +96,7 @@
             BlueprintIdentifier = "438657FE19A40073008C643A"
             BuildableName = "Class Directory.app"
             BlueprintName = "Class Directory"
-            ReferencedContainer = "container:Class Directory.xcodeproj">
+            ReferencedContainer = "container:ClassDirectory.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
@@ -104,7 +104,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

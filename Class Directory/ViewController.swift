@@ -18,16 +18,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var plistpath : String?
     var instructorpath : String?
     
+
+    
     let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
     var fetchedResultController: NSFetchedResultsController = NSFetchedResultsController()
     
     // #MARK: Lifecycle
                             
     override func viewDidLoad() {
+            println("1111")
         super.viewDidLoad()
-        
+            println("2222")
         self.tableViewMain.dataSource = self
+            println("3333")
         self.tableViewMain.delegate = self
+            println("4444")
         self.createInstructorPlist()
         println("A1")
         self.createPeoplePlist()
@@ -103,7 +108,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             if !fileManager.fileExistsAtPath(plistpath!){  //writing Plist file
                 
-//                println("no Plist file found at \(plistpath)")
+                println("no Plist file found at \(plistpath)")
                 
                 self.createInitialPeople()
                 
@@ -135,7 +140,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         println("value of directorys is \(directorys)")
         
         if (directorys != nil){
+            
+            println("createInstructorPlist 1")
+            
             let directories:[String] = directorys!;
+            println("createInstructorPlist 2")
             let pathToFile = directories[0]; //documents directory
             
             let plistfile = "InstructorArray.plist"
@@ -143,12 +152,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             if !fileManager.fileExistsAtPath(instructorpath!){  //writing Plist file
                 
-//                println("no Plist file found at \(instructorpath)")
+                println("no Plist file found at \(instructorpath)")
                 
                 self.createInitialInstructors()
                 
                 println("Saving to Plist")
-//
+
                 [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
                 
 //                println("writing to path \(instructorpath)")
@@ -194,7 +203,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     return self.instructorArray.count
                 } else {
                     println("Fb1")
-                return self.peopleArray.count
+                    
+                    return fetchedResultController.sections[section].numberOfObjects
+//                return self.peopleArray.count
                 }
         
         
@@ -276,55 +287,67 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if peopleArray.isEmpty {
             
             
-            var nateB = Person : (firstName: "Nate", lastName: "Birkholz", isTeacher: false)
-            var matthewB : Person = (firstName: "Matthew", lastName: "Brightbill", isTeacher: false)
-            var jeffC = Person(firstName: "Jeff", lastName: "Chavez", isTeacher: false)
-            var christieF = Person(firstName: "Christie", lastName: "Ferderer", isTeacher: false)
-            var davidF = Person(firstName: "David", lastName: "Fry", isTeacher: false)
-            var adrianG = Person(firstName: "Adrian", lastName: "Gherle", isTeacher: false)
-            var jakeH = Person(firstName: "Jake", lastName: "Hawken", isTeacher: false)
-            var shamsK = Person(firstName: "Shams", lastName: "Kazi", isTeacher: false)
-            var cameronK = Person(firstName: "Cameron", lastName: "Klein", isTeacher: false)
-            var koriK = Person(firstName: "Kori", lastName: "Kolodziejczak", isTeacher: false)
-            var parkerL = Person(firstName: "Parker", lastName: "Lewis", isTeacher: false)
-            var nathanM = Person(firstName: "Nathan", lastName: "Ma", isTeacher: false)
-            var caseyM = Person(firstName: "Casey", lastName: "MacPhee", isTeacher: false)
-            var brendanM = Person(firstName: "Brendan", lastName: "McAleer", isTeacher: false)
-            var brianM = Person(firstName: "Brian", lastName: "Mendez", isTeacher: false)
-            var markM = Person(firstName: "Mark", lastName: "Morris", isTeacher: false)
-            var rowanN = Person(firstName: "Rowan", lastName: "North", isTeacher: false)
-            var kevinP = Person(firstName: "Kevin", lastName: "Pham", isTeacher: false)
-            var willR = Person(firstName: "Will", lastName: "Richman", isTeacher: false)
-            var heatherT = Person(firstName: "Heather", lastName: "Thueringer", isTeacher: false)
-            var tuanV = Person(firstName: "Tuan", lastName: "Vu", isTeacher: false)
-            var zackW = Person(firstName: "Zack", lastName: "Walkingstick", isTeacher: false)
-            var saraW = Person(firstName: "Sara", lastName: "Wong", isTeacher: false)
-            var hiongyaoZ = Person(firstName: "Hongyao", lastName: "Zhang", isTeacher: false)
+//            var nateB = PersonOld(firstName: "Nate", lastName: "Birkholz", isTeacher: false)
+//            var matthewB = PersonOld(firstName: "Matthew", lastName: "Brightbill", isTeacher: false)
+            
+            var nateB = Person()
+            nateB.firstName = "Nate"
+            nateB.lastName = "Birkholz"
+            nateB.isTeacher = false
+            
+            var matthewB = Person()
+            matthewB.firstName = "Nate"
+            matthewB.lastName = "Birkholz"
+            matthewB.isTeacher = false
+            
+            
+//            var jeffC = PersonOld(firstName: "Jeff", lastName: "Chavez", isTeacher: false)
+//            var christieF = PersonOld(firstName: "Christie", lastName: "Ferderer", isTeacher: false)
+//            var davidF = PersonOld(firstName: "David", lastName: "Fry", isTeacher: false)
+//            var adrianG = PersonOld(firstName: "Adrian", lastName: "Gherle", isTeacher: false)
+//            var jakeH = PersonOld(firstName: "Jake", lastName: "Hawken", isTeacher: false)
+//            var shamsK = PersonOld(firstName: "Shams", lastName: "Kazi", isTeacher: false)
+//            var cameronK = PersonOld(firstName: "Cameron", lastName: "Klein", isTeacher: false)
+//            var koriK = PersonOld(firstName: "Kori", lastName: "Kolodziejczak", isTeacher: false)
+//            var parkerL = PersonOld(firstName: "Parker", lastName: "Lewis", isTeacher: false)
+//            var nathanM = PersonOld(firstName: "Nathan", lastName: "Ma", isTeacher: false)
+//            var caseyM = PersonOld(firstName: "Casey", lastName: "MacPhee", isTeacher: false)
+//            var brendanM = PersonOld(firstName: "Brendan", lastName: "McAleer", isTeacher: false)
+//            var brianM = PersonOld(firstName: "Brian", lastName: "Mendez", isTeacher: false)
+//            var markM = PersonOld(firstName: "Mark", lastName: "Morris", isTeacher: false)
+//            var rowanN = PersonOld(firstName: "Rowan", lastName: "North", isTeacher: false)
+//            var kevinP = PersonOld(firstName: "Kevin", lastName: "Pham", isTeacher: false)
+//            var willR = PersonOld(firstName: "Will", lastName: "Richman", isTeacher: false)
+//            var heatherT = PersonOld(firstName: "Heather", lastName: "Thueringer", isTeacher: false)
+//            var tuanV = PersonOld(firstName: "Tuan", lastName: "Vu", isTeacher: false)
+//            var zackW = PersonOld(firstName: "Zack", lastName: "Walkingstick", isTeacher: false)
+//            var saraW = PersonOld(firstName: "Sara", lastName: "Wong", isTeacher: false)
+//            var hiongyaoZ = PersonOld(firstName: "Hongyao", lastName: "Zhang", isTeacher: false)
             
             self.peopleArray.append(nateB)
             self.peopleArray.append(matthewB)
-            self.peopleArray.append(jeffC)
-            self.peopleArray.append(christieF)
-            self.peopleArray.append(davidF)
-            self.peopleArray.append(adrianG)
-            self.peopleArray.append(jakeH)
-            self.peopleArray.append(shamsK)
-            self.peopleArray.append(cameronK)
-            self.peopleArray.append(koriK)
-            self.peopleArray.append(parkerL)
-            self.peopleArray.append(nathanM)
-            self.peopleArray.append(caseyM)
-            self.peopleArray.append(brendanM)
-            self.peopleArray.append(brianM)
-            self.peopleArray.append(markM)
-            self.peopleArray.append(rowanN)
-            self.peopleArray.append(kevinP)
-            self.peopleArray.append(willR)
-            self.peopleArray.append(heatherT)
-            self.peopleArray.append(tuanV)
-            self.peopleArray.append(zackW)
-            self.peopleArray.append(saraW)
-            self.peopleArray.append(hiongyaoZ)
+//            self.peopleArray.append(jeffC)
+//            self.peopleArray.append(christieF)
+//            self.peopleArray.append(davidF)
+//            self.peopleArray.append(adrianG)
+//            self.peopleArray.append(jakeH)
+//            self.peopleArray.append(shamsK)
+//            self.peopleArray.append(cameronK)
+//            self.peopleArray.append(koriK)
+//            self.peopleArray.append(parkerL)
+//            self.peopleArray.append(nathanM)
+//            self.peopleArray.append(caseyM)
+//            self.peopleArray.append(brendanM)
+//            self.peopleArray.append(brianM)
+//            self.peopleArray.append(markM)
+//            self.peopleArray.append(rowanN)
+//            self.peopleArray.append(kevinP)
+//            self.peopleArray.append(willR)
+//            self.peopleArray.append(heatherT)
+//            self.peopleArray.append(tuanV)
+//            self.peopleArray.append(zackW)
+//            self.peopleArray.append(saraW)
+//            self.peopleArray.append(hiongyaoZ)
             
             for Person in peopleArray {
                 
@@ -352,9 +375,35 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func createInitialInstructors() {
         
         if instructorArray.isEmpty {
+            
+            let johnC = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: self.context) as Person
+            johnC.firstName = "John"
+            johnC.lastName = "Clem"
+            johnC.isTeacher = true
+            johnC.managedObjectContext.save(nil)
 
-            var johnC = Person(firstName: "John", lastName: "Clem", isTeacher: true)
-            var bradJ = Person(firstName: "Brad", lastName: "Johnson", isTeacher: true)
+            let bradJ = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: self.context) as Person
+            bradJ.firstName = "John"
+            bradJ.lastName = "Clem"
+            bradJ.isTeacher = true
+            bradJ.managedObjectContext.save(nil)
+
+//            let firstNames = ["john", "brad"]
+//            let lastNames = ["clem", "johnson"]
+//            
+//            for i in 0..<firstNames.count {
+//                let managedPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: self.context) as Person
+//                managedPerson.firstName = firstNames[i]
+//                managedPerson.lastName = lastNames[i]
+//                managedPerson.isTeacher = true
+//                managedPerson.managedObjectContext.save(nil)
+//            }
+            
+            
+            
+            
+//            (firstName: "John", lastName: "Clem", isTeacher: true)
+//            var bradJ = Person(firstName: "Brad", lastName: "Johnson", isTeacher: true)
             
             self.instructorArray.append(johnC)
             self.instructorArray.append(bradJ)
@@ -370,7 +419,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 newUser.setValue(Person.firstName, forKey: "firstName")
                 newUser.setValue(Person.lastName, forKey: "lastName")
-                newUser.setValue(Person.isTeacher?.boolValue, forKey: "isTeacher")
+                newUser.setValue(Person.isTeacher.boolValue, forKey: "isTeacher")
                 
                 context!.save(nil)
                 

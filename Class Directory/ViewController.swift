@@ -276,8 +276,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if peopleArray.isEmpty {
             
             
-            var nateB = Person(firstName: "Nate", lastName: "Birkholz", isTeacher: false)
-            var matthewB = Person(firstName: "Matthew", lastName: "Brightbill", isTeacher: false)
+            var nateB = Person : (firstName: "Nate", lastName: "Birkholz", isTeacher: false)
+            var matthewB : Person = (firstName: "Matthew", lastName: "Brightbill", isTeacher: false)
             var jeffC = Person(firstName: "Jeff", lastName: "Chavez", isTeacher: false)
             var christieF = Person(firstName: "Christie", lastName: "Ferderer", isTeacher: false)
             var davidF = Person(firstName: "David", lastName: "Fry", isTeacher: false)

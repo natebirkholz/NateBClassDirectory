@@ -12,6 +12,8 @@
 	<dict>
 		<key>385E956603A9699B7583B3DE8C63F020C66B82C7</key>
 		<string>https://github.com/natebirkholz/NateBClassDirectory.git</string>
+		<key>5590F5E462926689504F58BBF5ED8785FB5F3FAC</key>
+		<string>https://github.com/natebirkholz/CodefellowsC19_2014.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>ClassDirectory.xcodeproj</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>385E956603A9699B7583B3DE8C63F020C66B82C7</key>
 		<string>../..</string>
+		<key>5590F5E462926689504F58BBF5ED8785FB5F3FAC</key>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/natebirkholz/NateBClassDirectory.git</string>
@@ -28,6 +32,14 @@
 	<string>385E956603A9699B7583B3DE8C63F020C66B82C7</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5590F5E462926689504F58BBF5ED8785FB5F3FAC</string>
+			<key>IDESourceControlWCCName</key>
+			<string></string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

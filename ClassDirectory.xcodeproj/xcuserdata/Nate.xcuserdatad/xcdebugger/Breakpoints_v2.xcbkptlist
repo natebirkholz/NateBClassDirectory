@@ -29,7 +29,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "33"
             endingLineNumber = "33"
-            landmarkName = "encodeWithCoder(_:)"
+            landmarkName = "fullName()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -69,29 +69,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Class Directory/Person.swift"
-            timestampString = "430873012.196056"
+            filePath = "Class Directory/ViewController.swift"
+            timestampString = "430884052.898271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "init(firstName:lastName:isTeacher:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Class Directory/Person.swift"
-            timestampString = "430873321.66439"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "init(firstName:lastName:isTeacher:)"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
+            landmarkName = "createInitialPeople()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

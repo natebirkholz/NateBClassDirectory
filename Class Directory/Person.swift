@@ -23,5 +23,7 @@ class Person: NSManagedObject {
     func fullName() -> String {
         return firstName + " " + lastName
     }
+    
+
 
 }

@@ -20,57 +20,81 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 //  #MARK: Lifecycle
     
     override func viewDidLoad() {
-        
 
-        
+            println("DVC Lifecycle viewDidLoad 01")
         super.viewDidLoad()
-            println("DVC1")
+            println("DVC Lifecycle viewDidLoad 02")
         self.firstNameField.text = self.selectedPerson?.firstName
-            println("DVC2")
+            println("DVC Lifecycle viewDidLoad 03")
         self.lastNameField.text = self.selectedPerson?.lastName
-            println("DVC3")
+            println("DVC Lifecycle viewDidLoad 04")
         self.imageView.layer.masksToBounds = true
+            println("DVC Lifecycle viewDidLoad 05")
         self.imageView.layer.cornerRadius = 50.0
+            println("DVC Lifecycle viewDidLoad 06")
         
         
         if self.selectedPerson?.imageFor.imageAsset == nil {
-            println("Thats the problem")
+                println("DVC Lifecycle viewDidLoad 07")
             self.imageView.image = UIImage(named: "stack21")
+                println("DVC Lifecycle viewDidLoad 08")
+
         } else {
         
-        var myImage = self.selectedPerson?.imageFor  // UIImage(named: "stack21")
-            println("DVC4")
-        self.imageView.image = myImage
-            println("DVC5")
+            println("DVC Lifecycle viewDidLoad 09")
+        var loadedImage = self.selectedPerson?.imageFor  // UIImage(named: "stack21")
+            println("DVC Lifecycle viewDidLoad 10")
+        self.imageView.image = loadedImage
+            println("DVC Lifecycle viewDidLoad 11")
         }
-
+            println("DVC Lifecycle viewDidLoad 12")
     }
     
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+            println("DVC Lifecycle viewWillAppear 01")
 
+        if self.selectedPerson?.isTeacher == false {
+            instructorSwitch.setOn(false, animated: true)
+        }
 
     }
 
 
     override func viewWillDisappear(animated: Bool) {
+            println("DVC Lifecycle viewWillDisappear 01")
         super.viewWillDisappear(animated)
+            println("DVC Lifecycle viewWillDisappear 02")
         
         self.selectedPerson?.firstName = self.firstNameField.text
+            println("DVC Lifecycle viewWillDisappear 03")
         self.selectedPerson?.lastName = self.lastNameField.text
-        self.selectedPerson?.imageFor = self.imageView.image
+            println("DVC Lifecycle viewWillDisappear 04")
+        self.selectedPerson?.imageFor = self.imageView.image 
+            println("DVC Lifecycle viewWillDisappear 05")
+        
+        if instructorSwitch.on {
+            self.selectedPerson?.isTeacher = true
+        } else {
+            self.selectedPerson?.isTeacher = false
+        }
+        
+        println(self.selectedPerson?.isTeacher)
 
     }
 
 
     override func didReceiveMemoryWarning() {
+            println("DVC Lifecycle didReceiveMemoryWarning 01")
         super.didReceiveMemoryWarning()
 
     }
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
+            println("DVC Lifecycle textFieldShouldReturn 01")
         textField.resignFirstResponder()
+            println("DVC Lifecycle textFieldShouldReturn 02")
         return true
     }
     
@@ -93,7 +117,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             println("DVC6")
         var imagePickerController = UIImagePickerController()
             println("DVC7")
-        imagePickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary // .camera
+        imagePickerController.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum // .camera
             println("DVC8")
         self.presentViewController(imagePickerController, animated: true, completion: nil /* for some code*/)
             println("DVC9")

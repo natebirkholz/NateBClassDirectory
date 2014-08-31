@@ -138,7 +138,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //    #MARK: Tableview
 
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
-        
+            println("numberOfSectionsInTableView")
         return fetchedResultController.sections.count
         
     }
@@ -158,6 +158,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        println("numberOfRowsInSection 1")
         return fetchedResultController.sections[section].numberOfObjects
 
         }
@@ -170,10 +171,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         let cell = tableViewMain.dequeueReusableCellWithIdentifier("CellMain", forIndexPath: indexPath) as UITableViewCell
-        
+                println("cellForRowAtIndexPath 1")
             let personForRow = fetchedResultController.objectAtIndexPath(indexPath) as Person
-            cell.textLabel.text = personForRow.fullName()
-            
+                println("cellForRowAtIndexPath 2")
+           cell.textLabel.text = personForRow.fullName()
+                println("cellForRowAtIndexPath 3")
+        
             return cell
         
     }
@@ -190,12 +193,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
         println("section and row \(indexPath.section) \(indexPath.row) ")
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
-        let personForRow : NSManagedObject = fetchedResultController.objectAtIndexPath(indexPath) as Person
+        let personForRow = fetchedResultController.objectAtIndexPath(indexPath) as NSManagedObject
         context?.deleteObject(personForRow)
         context?.save(nil)
-            tableViewMain.beginUpdates()
-        tableViewMain!.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
-            tableViewMain.endUpdates()
+            
+            
+
+//            tableViewMain.beginUpdates()
+//        tableViewMain!.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
+//            tableViewMain.endUpdates()
+            
         }
         
 //                if editingStyle == .Delete {
@@ -204,6 +211,43 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //        }
         //        } else if editingStyle == .Insert {
         //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        tableViewMain.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController!, didChangeSection sectionInfo: NSFetchedResultsSectionInfo!, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        switch type {
+        case .Insert:
+            tableViewMain.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+        case .Delete:
+            tableViewMain.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+        default:
+            return
+        }
+    }
+    
+    func controller(controller: NSFetchedResultsController!, didChangeObject anObject: AnyObject!, atIndexPath indexPath: NSIndexPath!, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath!) {
+        switch type {
+        case .Insert:
+            tableViewMain.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+        case .Delete:
+            tableViewMain.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        case .Update:
+            return
+            //Should also manage this case!!!
+            //self.configureCell(tableView.cellForRowAtIndexPath(indexPath), atIndexPath: indexPath)
+        case .Move:
+            tableViewMain.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableViewMain.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+        default:
+            return
+        }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController!) {
+        tableViewMain.endUpdates()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {

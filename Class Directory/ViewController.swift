@@ -120,9 +120,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func getFetchedResultController() -> NSFetchedResultsController {
         
         fetchedResultController = NSFetchedResultsController(fetchRequest: personFetchRequest(), managedObjectContext: context, sectionNameKeyPath: "isTeacher", cacheName: nil)
-        
-//        let fetchMe = fetchedResultController.description.debugDescription
-        
+                
         return fetchedResultController
     }
     
@@ -248,7 +246,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 managedPerson.lastName = lastNamesLocal[i]
                 managedPerson.isTeacher = true
                 managedPerson.managedObjectContext.save(nil)
-//                context!.save(nil)
+
         }
         self.dummyInstructors()
 

@@ -24,7 +24,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 //  #MARK: Lifecycle
     
     override func viewDidLoad() {
-    
+        super.viewDidLoad()
         
         firstNameField.delegate = self
         lastNameField.delegate = self
@@ -33,95 +33,39 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             println("NIL PERSON YO")
         }
         
-
-
-            println("DVC Lifecycle viewDidLoad 01")
-        super.viewDidLoad()
-        
 //        self.navigationItem.backBarButtonItem.title = "Previous"
-            println("DVC Lifecycle viewDidLoad 02")
+        
         self.firstNameField.text = self.selectedPerson?.firstName
-            println("DVC Lifecycle viewDidLoad 03")
         self.lastNameField.text = self.selectedPerson?.lastName
-            println("DVC Lifecycle viewDidLoad 04")
         self.imageView.layer.masksToBounds = true
-            println("DVC Lifecycle viewDidLoad 05")
-        self.imageView.layer.cornerRadius = 50.0
-            println("DVC Lifecycle viewDidLoad 06")
+        self.imageView.layer.cornerRadius = 40.0
         
         
         if self.selectedPerson?.imageFor.imageAsset == nil {
-                println("DVC Lifecycle viewDidLoad 07")
             self.imageView.image = UIImage(named: "stack21")
-                println("DVC Lifecycle viewDidLoad 08")
 
         } else {
         
-            println("DVC Lifecycle viewDidLoad 09")
         var loadedImage = self.selectedPerson?.imageFor  // UIImage(named: "stack21")
-            println("DVC Lifecycle viewDidLoad 10")
         self.imageView.image = loadedImage
-            println("DVC Lifecycle viewDidLoad 11")
+
         }
-            println("DVC Lifecycle viewDidLoad 12")
     }
     
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-            println("DVC Lifecycle viewWillAppear 01")
 
         if self.selectedPerson?.isTeacher == false {
             instructorSwitch.setOn(false, animated: true)
+            
         }
-
     }
 
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-//        if (selectedPerson? != nil) {
-//            self.selectedPerson?.firstName = self.firstNameField.text
-//            self.selectedPerson?.lastName = self.lastNameField.text
-//            self.selectedPerson?.imageFor = self.imageView.image
-//            
-//            if instructorSwitch.on {
-//                self.selectedPerson?.isTeacher = true
-//            } else {
-//                self.selectedPerson?.isTeacher = false
-//            }
-//            
-//        } else {
-//            
-//            println("ugh")
-//            
-//            if self.firstNameField.text.isEmpty && self.lastNameField.text.isEmpty {
-//                println("first name empty is \(self.firstNameField.text.isEmpty)")
-//                println("last name empty is \(self.lastNameField.text.isEmpty)")
-//                println("M T DOOOOOOOOOOOOO00000000D")
-//            } else {
-//                var newPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: context) as NSManagedObject
-//                newPerson.setValue(self.firstNameField.text, forKey: "firstName")
-//                newPerson.setValue(self.lastNameField.text, forKey: "lastName")
-//                
-//                if self.imageView.image != nil {
-//                    newPerson.setValue(self.imageView.image, forKey: "imageFor")
-//                    
-//                }
-//                
-//                if instructorSwitch.on {
-//                    newPerson.setPrimitiveValue(true, forKey: "isTeacher")
-//                } else {
-//                    newPerson.setPrimitiveValue(false, forKey: "isTeacher")
-//                }
-//                selectedPerson? = newPerson as Person
-//            }
-//            
-//        }
-//        
-//        println("is this a teacher? \(self.selectedPerson?.isTeacher)")
-
     }
     
     @IBAction func cancelUnwind(sender: UIBarButtonItem) {
@@ -176,101 +120,38 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             }
             println("is this a teacher? \(self.selectedPerson?.isTeacher)")
         }
-        
-
-
-
-//    override func segueForUnwindingToViewController(toViewController: UIViewController!, fromViewController: UIViewController!, identifier: String!) -> UIStoryboardSegue! {
-//        let seg = super.segueForUnwindingToViewController(ViewController(), fromViewController: DetailViewController(), identifier: "create")
-//        println("i am here")
-//
-//        
-//        if (selectedPerson? != nil) {
-//            self.selectedPerson?.firstName = self.firstNameField.text
-//            self.selectedPerson?.lastName = self.lastNameField.text
-//            self.selectedPerson?.imageFor = self.imageView.image
-//            
-//            if instructorSwitch.on {
-//                self.selectedPerson?.isTeacher = true
-//            } else {
-//                self.selectedPerson?.isTeacher = false
-//            }
-//            
-//        } else {
-//            
-//            
-//            println("ugh")
-//            
-//            if self.firstNameField.text.isEmpty && self.lastNameField.text.isEmpty {
-//                println("first name empty is \(self.firstNameField.text.isEmpty)")
-//                println("last name empty is \(self.lastNameField.text.isEmpty)")
-//                println("M T DOOOOOOOOOOOOO00000000D")
-//            } else {
-//                var newPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: context) as NSManagedObject
-//                newPerson.setValue(self.firstNameField.text, forKey: "firstName")
-//                newPerson.setValue(self.lastNameField.text, forKey: "lastName")
-//                
-//                if self.imageView.image != nil {
-//                    newPerson.setValue(self.imageView.image, forKey: "imageFor")
-//                    
-//                }
-//                
-//                if instructorSwitch.on {
-//                    newPerson.setPrimitiveValue(true, forKey: "isTeacher")
-//                } else {
-//                    newPerson.setPrimitiveValue(false, forKey: "isTeacher")
-//                }
-//                selectedPerson? = newPerson as Person
-//            }
-//            
-//        }
-//        
-//        println("is this a teacher? \(self.selectedPerson?.isTeacher)")
-//        
-//        return seg
-//    }
 
     override func didReceiveMemoryWarning() {
-            println("DVC Lifecycle didReceiveMemoryWarning 01")
         super.didReceiveMemoryWarning()
 
     }
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
-            println("DVC Lifecycle textFieldShouldReturn 01")
         textField.resignFirstResponder()
-            println("DVC Lifecycle textFieldShouldReturn 02")
         return true
     }
     
     
 //    #MARK: Input management
     
-    @IBAction func tryThis() {
-        println("did it work?")
-    }
-
-    
     @IBAction func instructorSwitchSwitched(sender: UISwitch) {
         if instructorSwitch.on {
             println("on")
+            
         } else {
             println("off")
+            
         }
     }
     
     @IBAction func photoButtonPressed(sender: UIButton) {
         self.holdThis()
-            println("DVC6")
         var imagePickerController = UIImagePickerController()
-            println("DVC7")
         imagePickerController.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum // .camera
-            println("DVC8")
         self.presentViewController(imagePickerController, animated: true, completion: nil /* for some code*/)
-            println("DVC9")
         imagePickerController.delegate = self
-            println("DVC10")
         imagePickerController.allowsEditing = true
+        
     }
 
     
@@ -284,7 +165,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
     }
     func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
-        // fired when user cancels
         
         picker.dismissViewControllerAnimated(true, completion: nil)
     }

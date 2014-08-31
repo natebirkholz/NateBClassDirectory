@@ -197,20 +197,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         context?.deleteObject(personForRow)
         context?.save(nil)
             
-            
-
-//            tableViewMain.beginUpdates()
-//        tableViewMain!.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
-//            tableViewMain.endUpdates()
-            
         }
-        
-//                if editingStyle == .Delete {
-//                    // Delete the row from the data source
-//                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-//        }
-        //        } else if editingStyle == .Insert {
-        //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {

@@ -126,10 +126,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func personFetchRequest() -> NSFetchRequest {
         let fetchRequest = NSFetchRequest(entityName: "Person")
-        let sortDescriptor = NSSortDescriptor(key: "isTeacher", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        let sortDescriptor1 = NSSortDescriptor(key: "isTeacher", ascending: false)
+        let sortDescriptor2 = NSSortDescriptor(key: "lastName", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
         
-        println("sort descriptor is \(sortDescriptor)")
+        println("sort descriptor is \(sortDescriptor1), \(sortDescriptor2)")
         
         return fetchRequest
     }
@@ -178,7 +179,32 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
+    func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
+        return true
+    }
     
+    func tableView(tableView: UITableView!, editingStyleForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.Delete
+    }
+    
+    func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
+        println("section and row \(indexPath.section) \(indexPath.row) ")
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+        let personForRow : NSManagedObject = fetchedResultController.objectAtIndexPath(indexPath) as Person
+        context?.deleteObject(personForRow)
+        context?.save(nil)
+            tableViewMain.beginUpdates()
+        tableViewMain!.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
+            tableViewMain.endUpdates()
+        }
+        
+//                if editingStyle == .Delete {
+//                    // Delete the row from the data source
+//                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+//        }
+        //        } else if editingStyle == .Insert {
+        //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         if segue.identifier == "detailVCSegue" {

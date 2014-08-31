@@ -81,6 +81,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         }
         
         dismissViewController()
+        
     }
     
     func editPerson() {
@@ -94,7 +95,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                 self.selectedPerson?.isTeacher = false
             }
             println("is this a teacher? \(self.selectedPerson?.isTeacher)")
+        
         }
+    
     func createPerson() {
         
             if self.firstNameField.text.isEmpty && self.lastNameField.text.isEmpty {

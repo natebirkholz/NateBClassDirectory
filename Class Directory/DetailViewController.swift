@@ -7,18 +7,26 @@
 //
 
 import UIKit
+import Foundation
 import CoreData
 
-class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
 
     var selectedPerson : Person?
     
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
+    @IBOutlet weak var gitHubUserNameField: UITextField!
     @IBOutlet weak var instructorSwitch: UISwitch!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    
+    
+    var firstFieldBool : Bool = false
+    var lastFieldBool : Bool = false
+
     
     
 //  #MARK: Lifecycle
@@ -31,23 +39,33 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         if selectedPerson? == nil{
             println("NIL PERSON YO")
+            self.navigationItem.rightBarButtonItem.enabled = false
+        } else {
+            self.navigationItem.rightBarButtonItem.enabled = true
         }
+        
+//        let recognizer = UITapGestureRecognizer(target: self, action: Selector("didTap:"))
+//        recognizer.delegate = self
+//        view.addGestureRecognizer(recognizer)
         
 //        self.navigationItem.backBarButtonItem.title = "Previous"
         
         self.firstNameField.text = self.selectedPerson?.firstName
         self.lastNameField.text = self.selectedPerson?.lastName
         self.imageView.layer.masksToBounds = true
-        self.imageView.layer.cornerRadius = 40.0
+        self.imageView.layer.cornerRadius = 20.0
         
-        
-        if self.selectedPerson?.imageFor.imageAsset == nil {
-            self.imageView.image = UIImage(named: "stack21")
+        if self.selectedPerson?.profileImage?.imageAsset != nil {
+            var loadedImage = self.selectedPerson?.profileImage
+            self.imageView.image = loadedImage
+        } else if self.selectedPerson?.imageFor.imageAsset != nil {
+            var loadedImage = self.selectedPerson?.imageFor  // UIImage(named: "stack21")
+            self.imageView.image = loadedImage
 
         } else {
         
-        var loadedImage = self.selectedPerson?.imageFor  // UIImage(named: "stack21")
-        self.imageView.image = loadedImage
+            self.imageView.image = UIImage(named: "stack21")
+
 
         }
     }
@@ -70,6 +88,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     @IBAction func cancelUnwind(sender: UIBarButtonItem) {
         dismissViewController()
+        
     }
     
     @IBAction func saveDis(sender: UIBarButtonItem) {
@@ -88,7 +107,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             self.selectedPerson?.firstName = self.firstNameField.text
             self.selectedPerson?.lastName = self.lastNameField.text
             self.selectedPerson?.imageFor = self.imageView.image
-            
+            self.selectedPerson?.gitHubUserName = self.gitHubUserNameField.text
+        
             if instructorSwitch.on {
                 self.selectedPerson?.isTeacher = true
             } else {
@@ -108,6 +128,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                 var newPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: context) as NSManagedObject
                 newPerson.setValue(self.firstNameField.text, forKey: "firstName")
                 newPerson.setValue(self.lastNameField.text, forKey: "lastName")
+                newPerson.setValue(self.gitHubUserNameField.text, forKey: "gitHubUserName")
                 
                 if self.imageView.image != nil {
                     newPerson.setValue(self.imageView.image, forKey: "imageFor")
@@ -131,6 +152,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         textField.resignFirstResponder()
+        println(" text is \(textField.text.debugDescription)")
         return true
     }
     
@@ -156,7 +178,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         imagePickerController.allowsEditing = true
         
     }
-
+    @IBAction func didTap(sender: UITapGestureRecognizer) {
+        println("TAPPED BITCHEZ!!!")
+    }
     
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
         // gets fired when image picker is done
@@ -189,6 +213,76 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     func dismissViewController() {
         navigationController.popViewControllerAnimated(true)
     }
+
+
+    
+    func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
+
+        
+        if textField == firstNameField {
+            println("FIRST NAME FIELD IS ACTIVE")
+            var yesFirst : NSString = (self.firstNameField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            println("yesFirst is \(yesFirst)")
+            
+            if yesFirst.length > 0 {
+                firstFieldBool = true
+            } else {
+                println("why am i here?")
+                firstFieldBool = false
+            }
+            
+        } else if textField == lastNameField {
+            println("LAST NAME FIELD IS ACTIVE")
+            var yesLast : NSString = (self.lastNameField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            println("yesLast is \(yesLast)")
+            
+            if yesLast.length > 0 {
+                lastFieldBool = true
+            } else {
+                lastFieldBool = false
+            }
+
+        } else {
+            println("Neither")
+        }
+        
+
+
+//        if (yesFirst.length > 0)  { //|| (yesLast.length > 0)
+//            println(self.firstNameField.text)
+//            println("IS TEXT")
+//            self.navigationItem.rightBarButtonItem.enabled = true
+//            println("WAS TEXT")
+//
+//        } else {
+//            println(self.firstNameField.text.debugDescription)
+//            println("NOT TEXT")
+//            self.navigationItem.rightBarButtonItem.enabled = false
+//            println("WASN'T TEXT")
+
+//        }
+        if firstFieldBool == false && lastFieldBool == false {
+            println("CASE 1 \(firstFieldBool.boolValue), \(lastFieldBool.boolValue)")
+            self.navigationItem.rightBarButtonItem.enabled = false
+        } else {
+            println("CASE 2 \(firstFieldBool.boolValue), \(lastFieldBool.boolValue)")
+            self.navigationItem.rightBarButtonItem.enabled = true
+        }
+        println("returning")
+        return true
+    }
+    
+//    func textFieldShouldClear(textField: UITextField!) -> Bool {
+//        println("shouldClear")
+//        if self.firstNameField.text.isEmpty {
+//            println("should clear")
+//
+//        }
+//        return true
+//        
+//    }
+    
+
     
 //    func presentCamera()
 //    {

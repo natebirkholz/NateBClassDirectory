@@ -17,6 +17,8 @@ class Person: NSManagedObject {
     @NSManaged var imageFor: UIImage
     @NSManaged var isTeacher: Bool
     @NSManaged var lastName: String
+    @NSManaged var gitHubUserName: String?
+    @NSManaged var profileImage: UIImage?
     
   
     

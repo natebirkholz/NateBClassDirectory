@@ -2,11 +2,13 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6220.14" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Person" representedClassName="Person" syncable="YES">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gitHubUserName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageFor" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="isTeacher" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profileImage" optional="YES" attributeType="Transformable" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Person" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="Person" positionX="-54" positionY="-9" width="128" height="135"/>
     </elements>
 </model>

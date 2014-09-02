@@ -242,7 +242,7 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stack21.png" translatesAutoresizingMaskIntoConstraints="NO" id="ryW-XZ-Req">
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="student.png" translatesAutoresizingMaskIntoConstraints="NO" id="ryW-XZ-Req">
                                 <rect key="frame" x="213" y="84" width="175" height="175"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -308,9 +308,6 @@
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=compact" misplaced="YES">
-                                    <rect key="frame" x="360" y="178" width="175" height="30"/>
-                                </variation>
                                 <connections>
                                     <action selector="gitButtonHidden:" destination="p7B-ja-TLe" eventType="touchUpInside" id="i9a-hK-Wv7"/>
                                 </connections>
@@ -502,7 +499,7 @@
     </scenes>
     <resources>
         <image name="slr2.png" width="512" height="427"/>
-        <image name="stack21.png" width="256" height="256"/>
+        <image name="student.png" width="580" height="580"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="6dW-VH-AAU"/>

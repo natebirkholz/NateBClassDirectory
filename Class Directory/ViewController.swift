@@ -130,7 +130,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let sortDescriptor2 = NSSortDescriptor(key: "lastName", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
         
-        println("sort descriptor is \(sortDescriptor1), \(sortDescriptor2)")
+//        println("sort descriptor is \(sortDescriptor1), \(sortDescriptor2)")
         
         return fetchRequest
     }
@@ -138,7 +138,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //    #MARK: Tableview
 
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
-            println("numberOfSectionsInTableView")
+//            println("numberOfSectionsInTableView")
         return fetchedResultController.sections.count
         
     }
@@ -158,7 +158,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        println("numberOfRowsInSection 1")
+//        println("numberOfRowsInSection 1")
         return fetchedResultController.sections[section].numberOfObjects
 
         }
@@ -171,11 +171,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         let cell = tableViewMain.dequeueReusableCellWithIdentifier("CellMain", forIndexPath: indexPath) as UITableViewCell
-                println("cellForRowAtIndexPath 1")
             let personForRow = fetchedResultController.objectAtIndexPath(indexPath) as Person
-                println("cellForRowAtIndexPath 2")
            cell.textLabel.text = personForRow.fullName()
-                println("cellForRowAtIndexPath 3")
         
             return cell
         
@@ -191,7 +188,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
-        println("section and row \(indexPath.section) \(indexPath.row) ")
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
         let personForRow = fetchedResultController.objectAtIndexPath(indexPath) as NSManagedObject
         context?.deleteObject(personForRow)

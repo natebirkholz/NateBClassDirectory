@@ -26,6 +26,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     var firstFieldBool : Bool = false
     var lastFieldBool : Bool = false
+    var customImage = false
 
     
     
@@ -33,6 +34,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        println("self.customImage.boolValue is \(self.customImage.boolValue)")
+        if self.selectedPerson?.imageFor != nil {
+            println("found an image")
+            self.customImage = true
+        }
+        println("self.customImage.boolValue is \(self.customImage.boolValue)")
         
         firstNameField.delegate = self
         lastNameField.delegate = self
@@ -69,8 +76,17 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             self.imageView.image = loadedImage
 
         } else {
-        
-            self.imageView.image = UIImage(named: "user134")}
+            if self.selectedPerson?.isTeacher == true   {
+                self.imageView.image = UIImage(named: "teacher")
+
+            } else if self.selectedPerson?.isTeacher == false {
+                self.imageView.image = UIImage(named: "student")
+                
+            } else {
+                self.imageView.image = UIImage(named: "teacher")
+                
+            }
+        }
     }
     
 
@@ -117,8 +133,16 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     func editPerson() {
             self.selectedPerson?.firstName = self.firstNameField.text
             self.selectedPerson?.lastName = self.lastNameField.text
-            self.selectedPerson?.imageFor = self.imageView.image
-//            self.selectedPerson?.gitHubUserName = self.gitHubUserNameField.text
+        
+            println("the image is \(self.imageView.image.imageAsset)")
+            if self.customImage == true {
+                self.selectedPerson?.imageFor = self.imageView.image
+                println("saved an image")
+                
+            } else {
+                println("it's a default image")
+            }
+            self.selectedPerson?.gitHubUserName = self.gitHubUserNameField.text
         
             if instructorSwitch.on {
                 self.selectedPerson?.isTeacher = true
@@ -137,11 +161,18 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                 var newPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: context) as NSManagedObject
                 newPerson.setValue(self.firstNameField.text, forKey: "firstName")
                 newPerson.setValue(self.lastNameField.text, forKey: "lastName")
-                newPerson.setValue(self.gitHubUserNameField.text, forKey: "gitHubUserName")
+                println("the githubfieldtext is \(self.gitHubUserNameField.text)")
+                if self.gitHubUserNameField.text == nil {
+                    newPerson.setValue(self.gitHubUserNameField.text, forKey: "gitHubUserName")
+                }
                 
-                if self.imageView.image != nil {
+                println("the image is \(self.imageView.image.imageAsset)")
+                if self.customImage == true {
                     newPerson.setValue(self.imageView.image, forKey: "imageFor")
+                    println("saved an image")
                     
+                } else {
+                    println("it's a default image")
                 }
                 
                 if instructorSwitch.on {
@@ -170,11 +201,22 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     @IBAction func instructorSwitchSwitched(sender: UISwitch) {
         if instructorSwitch.on {
-            println("on")
+            println("on \(self.selectedPerson?.imageFor.debugDescription)")
+            if self.selectedPerson?.imageFor == nil {
+                UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
+                    self.imageView.image = UIImage(named: "teacher")
+                    }, completion: nil)
+
+            }
             
         } else {
-            println("off")
-            
+            println("off \(self.selectedPerson?.imageFor.debugDescription)")
+            if self.selectedPerson?.imageFor == nil {
+
+            UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
+                self.imageView.image = UIImage(named: "student")
+                }, completion: nil)
+            }
         }
     }
     
@@ -205,6 +247,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         var editedImage = info[UIImagePickerControllerEditedImage] as UIImage
         self.imageView.image = editedImage
+        self.customImage = true
         picker.dismissViewControllerAnimated(true, completion: nil)
         
     }
@@ -244,13 +287,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         alert.addAction(UIAlertAction(title: "Enter", style: UIAlertActionStyle.Destructive, handler: {
             UIAlertAction in
                 let localField = alert.textFields[0] as UITextField
-                        self.gitHubUserNameField.text = localField.text!
+                self.gitHubUserNameField.text = localField.text!
             
-                                println("ugh \(localField.text)")
-                self.selectedPerson?.gitHubUserName = localField.text!
-            println("ugh \(self.selectedPerson?.gitHubUserName)")
-            UIView.transitionWithView(self.gitHubUserNameField, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
-                self.gitHubUserNameField.setNeedsDisplay()
+                    println("ugh \(localField.text)")
+//                self.gitHubUserNameField.text = localField.text!
+            
+                    println("ugh \(self.selectedPerson?.gitHubUserName)")
+            
+                UIView.transitionWithView(self.gitHubUserNameField, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
+                    self.gitHubUserNameField.setNeedsDisplay()
                 }, completion: nil)
 
             }))
@@ -261,7 +306,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             if self.selectedPerson? == nil {
                 textFieldAlert.placeholder = "Username"
             } else {
-                textFieldAlert.text = self.selectedPerson?.gitHubUserName
+                textFieldAlert.text = self.gitHubUserNameField.text
             }
             
             textFieldAlert.autocapitalizationType = UITextAutocapitalizationType.None

@@ -44,16 +44,22 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             self.navigationItem.rightBarButtonItem.enabled = true
         }
         
+        if self.selectedPerson?.firstName != nil {
+                firstFieldBool = true
+        }
+        
+        if self.selectedPerson?.lastName != nil {
+                lastFieldBool = true
+            }
+        
 //        let recognizer = UITapGestureRecognizer(target: self, action: Selector("didTap:"))
 //        recognizer.delegate = self
 //        view.addGestureRecognizer(recognizer)
         
-//        self.navigationItem.backBarButtonItem.title = "Previous"
-        
         self.firstNameField.text = self.selectedPerson?.firstName
         self.lastNameField.text = self.selectedPerson?.lastName
         self.imageView.layer.masksToBounds = true
-        self.imageView.layer.cornerRadius = 20.0
+        self.imageView.layer.cornerRadius = 30.0
         
         if self.selectedPerson?.profileImage?.imageAsset != nil {
             var loadedImage = self.selectedPerson?.profileImage
@@ -64,19 +70,24 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 
         } else {
         
-            self.imageView.image = UIImage(named: "stack21")
-
-
-        }
+            self.imageView.image = UIImage(named: "user134")}
     }
     
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        
+        println("view will appear")
 
         if self.selectedPerson?.isTeacher == false {
             instructorSwitch.setOn(false, animated: true)
             
+        }
+        println("github username is \(self.selectedPerson?.gitHubUserName)")
+        
+        if self.selectedPerson?.gitHubUserName != nil {
+            println("has a username")
+            self.gitHubUserNameField.text = self.selectedPerson?.gitHubUserName
         }
     }
 
@@ -107,7 +118,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             self.selectedPerson?.firstName = self.firstNameField.text
             self.selectedPerson?.lastName = self.lastNameField.text
             self.selectedPerson?.imageFor = self.imageView.image
-            self.selectedPerson?.gitHubUserName = self.gitHubUserNameField.text
+//            self.selectedPerson?.gitHubUserName = self.gitHubUserNameField.text
         
             if instructorSwitch.on {
                 self.selectedPerson?.isTeacher = true
@@ -121,9 +132,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     func createPerson() {
         
             if self.firstNameField.text.isEmpty && self.lastNameField.text.isEmpty {
-                println("first name empty is \(self.firstNameField.text.isEmpty)")
-                println("last name empty is \(self.lastNameField.text.isEmpty)")
-                println("M T DOOOOOOOOOOOOO00000000D")
+                println("won't save")
             } else {
                 var newPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: context) as NSManagedObject
                 newPerson.setValue(self.firstNameField.text, forKey: "firstName")
@@ -170,7 +179,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     
     @IBAction func photoButtonPressed(sender: UIButton) {
-        self.holdThis()
         var imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum // .camera
         self.presentViewController(imagePickerController, animated: true, completion: nil /* for some code*/)
@@ -180,6 +188,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     @IBAction func didTap(sender: UITapGestureRecognizer) {
         println("TAPPED BITCHEZ!!!")
+        var alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func gitButtonHidden(sender: UIButton) {
+        println("quit touching me")
+        addUsername()
+        
     }
     
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
@@ -203,13 +220,65 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             (action) in
                 println("things here")
             })
-        alert.addAction(UIAlertAction(title: "Load from library", style: UIAlertActionStyle.Destructive) {
+        alert.addAction(UIAlertAction(title: "Enter a Github Username", style: UIAlertActionStyle.Destructive) {
             (action) in
             println("stuff here")
             //code to choose library here
         })
+        alert.addAction(UIAlertAction(title: "More stuff", style: UIAlertActionStyle.Default, handler: nil))
+        
+        
+        
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+
+    }
+
+
+    func addUsername() {
+        var alert = UIAlertController(title: "Username", message: "Enter a Github Username", preferredStyle: UIAlertControllerStyle.Alert)
+        var conversionString : String?
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Enter", style: UIAlertActionStyle.Destructive, handler: {
+            UIAlertAction in
+                let localField = alert.textFields[0] as UITextField
+                        self.gitHubUserNameField.text = localField.text!
+            
+                                println("ugh \(localField.text)")
+                self.selectedPerson?.gitHubUserName = localField.text!
+            println("ugh \(self.selectedPerson?.gitHubUserName)")
+            UIView.transitionWithView(self.gitHubUserNameField, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
+                self.gitHubUserNameField.setNeedsDisplay()
+                }, completion: nil)
+
+            }))
+
+        alert.addTextFieldWithConfigurationHandler({ (textFieldAlert: UITextField!) -> Void in
+            textFieldAlert.delegate = self
+            
+            if self.selectedPerson? == nil {
+                textFieldAlert.placeholder = "Username"
+            } else {
+                textFieldAlert.text = self.selectedPerson?.gitHubUserName
+            }
+            
+            textFieldAlert.autocapitalizationType = UITextAutocapitalizationType.None
+            textFieldAlert.autocorrectionType = UITextAutocorrectionType.No
+            
+            
+            return
+        })
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+    
     }
     
+    func refreshView () {
+        println("You were right, genius!")
+    }
+
     func dismissViewController() {
         navigationController.popViewControllerAnimated(true)
     }
@@ -246,21 +315,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             println("Neither")
         }
         
-
-
-//        if (yesFirst.length > 0)  { //|| (yesLast.length > 0)
-//            println(self.firstNameField.text)
-//            println("IS TEXT")
-//            self.navigationItem.rightBarButtonItem.enabled = true
-//            println("WAS TEXT")
-//
-//        } else {
-//            println(self.firstNameField.text.debugDescription)
-//            println("NOT TEXT")
-//            self.navigationItem.rightBarButtonItem.enabled = false
-//            println("WASN'T TEXT")
-
-//        }
         if firstFieldBool == false && lastFieldBool == false {
             println("CASE 1 \(firstFieldBool.boolValue), \(lastFieldBool.boolValue)")
             self.navigationItem.rightBarButtonItem.enabled = false

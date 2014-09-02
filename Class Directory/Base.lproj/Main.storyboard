@@ -119,6 +119,7 @@
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Github Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="299-Lw-gDw">
                                 <rect key="frame" x="213" y="351" width="175" height="30"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="RC3-VN-qgy"/>
                                     <constraint firstAttribute="width" constant="175" id="jBg-eM-QAt"/>
@@ -298,6 +299,22 @@
                                     <action selector="photoButtonPressed:" destination="p7B-ja-TLe" eventType="touchUpInside" id="5Ig-18-X2S"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAW-Ug-yka">
+                                <rect key="frame" x="214" y="351" width="175" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="175" id="992-EL-9dp"/>
+                                    <constraint firstAttribute="height" constant="30" id="chS-Pq-UEl"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact" misplaced="YES">
+                                    <rect key="frame" x="360" y="178" width="175" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="gitButtonHidden:" destination="p7B-ja-TLe" eventType="touchUpInside" id="i9a-hK-Wv7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -325,6 +342,7 @@
                             <constraint firstAttribute="centerX" secondItem="ryW-XZ-Req" secondAttribute="centerX" id="L4a-2z-pQM"/>
                             <constraint firstItem="51P-aw-vjh" firstAttribute="centerY" secondItem="7jt-G9-CdL" secondAttribute="centerY" id="Lom-00-BAO"/>
                             <constraint firstItem="dk9-yW-nzL" firstAttribute="leading" secondItem="51P-aw-vjh" secondAttribute="trailing" constant="8" id="M2O-yb-uns"/>
+                            <constraint firstItem="299-Lw-gDw" firstAttribute="centerY" secondItem="lAW-Ug-yka" secondAttribute="centerY" id="PYO-Ik-W8k"/>
                             <constraint firstItem="Pq9-h6-OZQ" firstAttribute="top" secondItem="51P-aw-vjh" secondAttribute="bottom" constant="8" id="Ph6-bQ-FmL">
                                 <variation key="heightClass=compact" constant="12"/>
                             </constraint>
@@ -348,6 +366,7 @@
                             <constraint firstItem="299-Lw-gDw" firstAttribute="top" secondItem="Gm7-0b-2zn" secondAttribute="bottom" constant="12" id="gqg-pc-pA2">
                                 <variation key="heightClass=compact" constant="8"/>
                             </constraint>
+                            <constraint firstItem="299-Lw-gDw" firstAttribute="centerX" secondItem="lAW-Ug-yka" secondAttribute="centerX" constant="-1" id="iBl-Of-LQ3"/>
                             <constraint firstItem="ryW-XZ-Req" firstAttribute="leading" secondItem="KDF-3O-E0D" secondAttribute="leadingMargin" constant="-16" id="ixx-yt-xKK">
                                 <variation key="heightClass=compact" constant="30"/>
                             </constraint>
@@ -369,7 +388,6 @@
                                 <exclude reference="ixx-yt-xKK"/>
                                 <exclude reference="3k3-nm-dpt"/>
                                 <exclude reference="KWw-7E-GXJ"/>
-                                <exclude reference="l5K-Dk-QGP"/>
                                 <exclude reference="W2n-8Y-0tA"/>
                                 <exclude reference="gqg-pc-pA2"/>
                                 <exclude reference="51i-QU-agq"/>
@@ -381,9 +399,10 @@
                                 <exclude reference="TAd-U9-IOn"/>
                                 <exclude reference="fbb-Bz-F7x"/>
                                 <exclude reference="kfM-tA-GeV"/>
+                                <exclude reference="M2O-yb-uns"/>
                                 <exclude reference="Ph6-bQ-FmL"/>
                                 <exclude reference="Rzn-sw-Sg5"/>
-                                <exclude reference="M2O-yb-uns"/>
+                                <exclude reference="l5K-Dk-QGP"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact">
@@ -401,7 +420,6 @@
                                 <include reference="KWw-7E-GXJ"/>
                                 <exclude reference="ZMf-qy-Iax"/>
                                 <exclude reference="zoG-Z3-3QZ"/>
-                                <include reference="l5K-Dk-QGP"/>
                                 <exclude reference="FVd-cJ-2vC"/>
                                 <include reference="W2n-8Y-0tA"/>
                                 <exclude reference="c8Z-iH-J0l"/>
@@ -422,12 +440,13 @@
                                 <include reference="fbb-Bz-F7x"/>
                                 <include reference="kfM-tA-GeV"/>
                                 <exclude reference="snK-fF-Nmc"/>
+                                <include reference="M2O-yb-uns"/>
+                                <exclude reference="d2O-Ml-aCf"/>
                                 <exclude reference="Kvr-dd-hmn"/>
                                 <include reference="Ph6-bQ-FmL"/>
                                 <include reference="Rzn-sw-Sg5"/>
                                 <exclude reference="dlh-0L-pHb"/>
-                                <include reference="M2O-yb-uns"/>
-                                <exclude reference="d2O-Ml-aCf"/>
+                                <include reference="l5K-Dk-QGP"/>
                             </mask>
                         </variation>
                     </view>

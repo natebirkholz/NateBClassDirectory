@@ -296,11 +296,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
             let firstNamesLocal = ["John", "Brad"]
             let lastNamesLocal = ["Clem", "Johnson"]
+            let gitNamesLocal = ["johnnyclem", "bradleypj823"]
         
             for i in 0..<firstNamesLocal.count {
                 let managedPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: self.context) as Person
                 managedPerson.firstName = firstNamesLocal[i]
                 managedPerson.lastName = lastNamesLocal[i]
+                managedPerson.gitHubUserName = gitNamesLocal[i]
                 managedPerson.isTeacher = true
                 managedPerson.managedObjectContext.save(nil)
 

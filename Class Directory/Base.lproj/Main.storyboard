@@ -476,6 +476,7 @@
                         <outlet property="imageView" destination="ryW-XZ-Req" id="thB-PH-ZbS"/>
                         <outlet property="instructorSwitch" destination="51P-aw-vjh" id="j7H-si-EO0"/>
                         <outlet property="lastNameField" destination="Gm7-0b-2zn" id="JFr-Mp-IXg"/>
+                        <outlet property="photoButton" destination="Pq9-h6-OZQ" id="oky-fw-IVv"/>
                         <outlet property="saveButton" destination="g5n-NB-iOS" id="B8f-Dr-hAv"/>
                     </connections>
                 </viewController>

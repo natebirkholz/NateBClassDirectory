@@ -45,7 +45,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         context?.save(nil)
-            println("Object Saved")
+            //rintln("Object Saved")
         fetchedResultController.performFetch(nil)
 
         self.tableViewMain.reloadData()
@@ -69,9 +69,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             plistpath = pathToFile.stringByAppendingPathComponent(plistfile);
 
             if !fileManager.fileExistsAtPath(plistpath!){  //writing Plist file
-                println("no Plist file found at \(plistpath)")
+                //rintln("no Plist file found at \(plistpath)")
                 self.createInitialPeople()
-                println("Saving to Plist")
                 
                 [NSKeyedArchiver.archiveRootObject(peopleArray, toFile: plistpath!)]
                 
@@ -88,7 +87,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let fileManager = (NSFileManager.defaultManager())
         let directorys : [String]? = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory,NSSearchPathDomainMask.AllDomainsMask, true) as? [String]
         
-        println("value of directorys is \(directorys)")
         
         if (directorys != nil){
             
@@ -100,11 +98,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
            
             if !fileManager.fileExistsAtPath(instructorpath!){  //writing Plist file
                 
-                println("no Plist file found at \(instructorpath)")
+                //rintln("no Plist file found at \(instructorpath)")
                 
                 self.createInitialInstructors()
                
-                println("Saving to Plist")
 
                 [NSKeyedArchiver.archiveRootObject(instructorArray, toFile: instructorpath!)]
                 
@@ -119,7 +116,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func getFetchedResultController() -> NSFetchedResultsController {
         
-        fetchedResultController = NSFetchedResultsController(fetchRequest: personFetchRequest(), managedObjectContext: context, sectionNameKeyPath: "isTeacher", cacheName: nil)
+        fetchedResultController = NSFetchedResultsController(fetchRequest: personFetchRequest(), managedObjectContext: context!, sectionNameKeyPath: "isTeacher", cacheName: nil)
                 
         return fetchedResultController
     }
@@ -130,7 +127,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let sortDescriptor2 = NSSortDescriptor(key: "lastName", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
         
-//        println("sort descriptor is \(sortDescriptor1), \(sortDescriptor2)")
         
         return fetchRequest
     }
@@ -138,12 +134,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //    #MARK: Tableview
 
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
-//            println("numberOfSectionsInTableView")
-        return fetchedResultController.sections.count
+        
+        return fetchedResultController.sections?.count as Int!
         
     }
     
-    func tableView(tableView: UITableView!, titleForHeaderInSection section: Int) -> String! {
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String! {
         if (section == 0) {
             return "Instructors"
         } else {
@@ -152,27 +148,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    func tableView(tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 70.0
         
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-//        println("numberOfRowsInSection 1")
-        return fetchedResultController.sections[section].numberOfObjects
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return fetchedResultController.sections![section].numberOfObjects!
 
         }
 
-        
+
 //        let teacherCount = peopleArray.filter { (person : Person) -> Bool in
 //            return person.isTeacher!
 //            }.count
 //                return teacherCount
         
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableViewMain.dequeueReusableCellWithIdentifier("CellMain", forIndexPath: indexPath) as UITableViewCell
             let personForRow = fetchedResultController.objectAtIndexPath(indexPath) as Person
-           cell.textLabel.text = personForRow.fullName()
+           cell.textLabel?.text = personForRow.fullName()
         
             return cell
         
@@ -200,7 +196,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableViewMain.beginUpdates()
     }
     
-    func controller(controller: NSFetchedResultsController!, didChangeSection sectionInfo: NSFetchedResultsSectionInfo!, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
         switch type {
         case .Insert:
             tableViewMain.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
@@ -211,7 +207,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    func controller(controller: NSFetchedResultsController!, didChangeObject anObject: AnyObject!, atIndexPath indexPath: NSIndexPath!, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath!) {
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath) {
         switch type {
         case .Insert:
             tableViewMain.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
@@ -229,22 +225,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController!) {
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableViewMain.endUpdates()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "detailVCSegue" {
             
                 let cell = sender as UITableViewCell
                 let indexPath = tableViewMain.indexPathForCell(cell)
                 let vc = segue.destinationViewController as DetailViewController
-                var selectedPerson: Person = fetchedResultController.objectAtIndexPath(indexPath) as Person
+                var selectedPerson: Person = fetchedResultController.objectAtIndexPath(indexPath!) as Person
                 vc.selectedPerson = selectedPerson
 
             
         } else {
-            println("create")
+            //rintln("create")
         }
     }
 
@@ -253,11 +249,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     func createInitialPeople() {
             
-            let firstNamesLocal = ["Nate", "Matthew", "Jeff", "Christie", "David", "Adrian", "Jake", "Shams", "Cameron", "Kori", "Nathan", "Casey", "Brendan", "Brian", "Mark", "Rowan", "Kevin", "Will", "Heather", "Tuan", "Zack", "Sara", "Hongyao"]
+            let firstNamesLocal = ["Nate", "Matthew", "Jeff", "Christie", "David", "Adrian", "Jake", "Shams", "Cameron", "Kori", "Parker", "Nathan", "Casey", "Brendan", "Brian", "Mark", "Rowan", "Kevin", "Will", "Heather", "Tuan", "Zack", "Sara", "Hongyao"]
             let lastNamesLocal = ["Birkholz", "Brightbill", "Chavez", "Ferderer", "Fry", "Gherle", "Hawken", "Kazi", "Klein", "Kolodziejczak", "Lewis", "Ma", "MacPhee", "McAleer", "Mendez", "Morris", "North", "Pham", "Richman", "Thueringer", "Vu", "Walkingstick", "Wong", "Zhang"]
         
             for i in 0..<firstNamesLocal.count {
-                let managedPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: self.context) as Person
+                let managedPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: self.context!) as Person
                 managedPerson.firstName = firstNamesLocal[i]
                 managedPerson.lastName = lastNamesLocal[i]
                 managedPerson.isTeacher = false
@@ -277,13 +273,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //                
 //                context!.save(nil)
 //                
-////                println(newUser)
-//                print("Object Saved ")
+//                //rintln(newUser)
+//                //rint("Object Saved ")
 //                
 //            }
 //            
-//            println("newline")
-//            
+//
 //        }
 //        
 //    }
@@ -295,7 +290,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let gitNamesLocal = ["johnnyclem", "bradleypj823"]
         
             for i in 0..<firstNamesLocal.count {
-                let managedPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: self.context) as Person
+                let managedPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: self.context!) as Person
                 managedPerson.firstName = firstNamesLocal[i]
                 managedPerson.lastName = lastNamesLocal[i]
                 managedPerson.gitHubUserName = gitNamesLocal[i]

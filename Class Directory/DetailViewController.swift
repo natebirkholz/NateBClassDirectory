@@ -20,6 +20,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     @IBOutlet weak var instructorSwitch: UISwitch!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let context = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
     
@@ -27,6 +28,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     var firstFieldBool : Bool = false
     var lastFieldBool : Bool = false
     var customImage = false
+    var githubImage = false
+    var gitHubAPIUrl = "https://api.github.com/users/"
+    var jsonData : NSDictionary?
+    
 
     
     
@@ -34,21 +39,26 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("self.customImage.boolValue is \(self.customImage.boolValue)")
-        if self.selectedPerson?.imageFor != nil {
-            println("found an image")
+        if self.selectedPerson?.profileImage != nil {
             self.customImage = true
+
+        } else if self.selectedPerson?.imageFor != nil {
+            self.customImage = true
+
+        } else {
+            println("default image")
+
         }
-        println("self.customImage.boolValue is \(self.customImage.boolValue)")
         
         firstNameField.delegate = self
         lastNameField.delegate = self
         
         if selectedPerson? == nil{
-            println("NIL PERSON YO")
-            self.navigationItem.rightBarButtonItem.enabled = false
+            self.navigationItem.rightBarButtonItem?.enabled = false
+            
         } else {
-            self.navigationItem.rightBarButtonItem.enabled = true
+            self.navigationItem.rightBarButtonItem?.enabled = true
+            
         }
         
         if self.selectedPerson?.firstName != nil {
@@ -71,9 +81,11 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         if self.selectedPerson?.profileImage?.imageAsset != nil {
             var loadedImage = self.selectedPerson?.profileImage
             self.imageView.image = loadedImage
+            self.customImage == true
         } else if self.selectedPerson?.imageFor.imageAsset != nil {
             var loadedImage = self.selectedPerson?.imageFor  // UIImage(named: "stack21")
             self.imageView.image = loadedImage
+            self.customImage = true
 
         } else {
             if self.selectedPerson?.isTeacher == true   {
@@ -92,18 +104,17 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        
-        println("view will appear")
 
         if self.selectedPerson?.isTeacher == false {
             instructorSwitch.setOn(false, animated: true)
             
         }
-        println("github username is \(self.selectedPerson?.gitHubUserName)")
         
         if self.selectedPerson?.gitHubUserName != nil {
-            println("has a username")
             self.gitHubUserNameField.text = self.selectedPerson?.gitHubUserName
+            var url = NSURL(string: "\(self.gitHubAPIUrl)\(self.gitHubUserNameField.text)")
+            self.getJSONDataFromGitHub(self.gitHubUserNameField.text)
+            
         }
     }
 
@@ -134,22 +145,25 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             self.selectedPerson?.firstName = self.firstNameField.text
             self.selectedPerson?.lastName = self.lastNameField.text
         
-            println("the image is \(self.imageView.image.imageAsset)")
-            if self.customImage == true {
-                self.selectedPerson?.imageFor = self.imageView.image
-                println("saved an image")
+            if self.customImage == true && self.githubImage == true {
+                self.selectedPerson?.profileImage = self.imageView.image!
+                
+            } else if self.customImage == true && self.githubImage == false {
+                self.selectedPerson?.imageFor = self.imageView.image!
                 
             } else {
                 println("it's a default image")
+                
             }
             self.selectedPerson?.gitHubUserName = self.gitHubUserNameField.text
         
             if instructorSwitch.on {
                 self.selectedPerson?.isTeacher = true
+                
             } else {
                 self.selectedPerson?.isTeacher = false
+                
             }
-            println("is this a teacher? \(self.selectedPerson?.isTeacher)")
         
         }
     
@@ -157,32 +171,39 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
             if self.firstNameField.text.isEmpty && self.lastNameField.text.isEmpty {
                 println("won't save")
+                
             } else {
-                var newPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: context) as NSManagedObject
+                var newPerson = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: context!) as NSManagedObject
                 newPerson.setValue(self.firstNameField.text, forKey: "firstName")
                 newPerson.setValue(self.lastNameField.text, forKey: "lastName")
-                println("the githubfieldtext is \(self.gitHubUserNameField.text)")
+
                 if self.gitHubUserNameField.text == nil {
                     newPerson.setValue(self.gitHubUserNameField.text, forKey: "gitHubUserName")
+                    
                 }
                 
-                println("the image is \(self.imageView.image.imageAsset)")
-                if self.customImage == true {
+                if self.customImage == true && self.githubImage == false {
                     newPerson.setValue(self.imageView.image, forKey: "imageFor")
-                    println("saved an image")
+                    
+                } else if self.customImage == true && self.githubImage == true {
+                        newPerson.setValue(self.imageView.image, forKey: "profileImage")
                     
                 } else {
-                    println("it's a default image")
+                    println("default image")
+                    
                 }
                 
                 if instructorSwitch.on {
                     newPerson.setPrimitiveValue(true, forKey: "isTeacher")
+                    
                 } else {
                     newPerson.setPrimitiveValue(false, forKey: "isTeacher")
+                    
                 }
+                
                 selectedPerson? = newPerson as Person
+                
             }
-            println("is this a teacher? \(self.selectedPerson?.isTeacher)")
         }
 
     override func didReceiveMemoryWarning() {
@@ -192,8 +213,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         textField.resignFirstResponder()
-        println(" text is \(textField.text.debugDescription)")
         return true
+        
     }
     
     
@@ -201,50 +222,60 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     @IBAction func instructorSwitchSwitched(sender: UISwitch) {
         if instructorSwitch.on {
-            println("on \(self.selectedPerson?.imageFor.debugDescription)")
-            if self.selectedPerson?.imageFor == nil {
+            
+            if self.selectedPerson?.imageFor == nil && customImage == false {
                 UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
                     self.imageView.image = UIImage(named: "teacher")
                     }, completion: nil)
 
+            } else {
+                println("don't change")
+                
             }
             
         } else {
-            println("off \(self.selectedPerson?.imageFor.debugDescription)")
-            if self.selectedPerson?.imageFor == nil {
+            if self.selectedPerson?.imageFor == nil && customImage == false {
 
             UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
                 self.imageView.image = UIImage(named: "student")
                 }, completion: nil)
+            } else {
+                println("don't change")
+
             }
+            
         }
     }
     
     @IBAction func photoButtonPressed(sender: UIButton) {
         var imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum // .camera
+        
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+            imagePickerController.sourceType = UIImagePickerControllerSourceType.Camera
+        }
+        if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+            imagePickerController.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+            
+        }
         self.presentViewController(imagePickerController, animated: true, completion: nil /* for some code*/)
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
         
     }
+    
     @IBAction func didTap(sender: UITapGestureRecognizer) {
-        println("TAPPED BITCHEZ!!!")
         var alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+        
     }
     
     @IBAction func gitButtonHidden(sender: UIButton) {
-        println("quit touching me")
         addUsername()
         
     }
     
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
-        // gets fired when image picker is done
-        println("user picked an image")
-        
         var editedImage = info[UIImagePickerControllerEditedImage] as UIImage
         self.imageView.image = editedImage
         self.customImage = true
@@ -252,32 +283,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
     }
     func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
-        
         picker.dismissViewControllerAnimated(true, completion: nil)
+        
     }
-    
-    func holdThis() {
-        var alert = UIAlertController(title: "Title", message: "message", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
-            (action) in
-                println("things here")
-            })
-        alert.addAction(UIAlertAction(title: "Enter a Github Username", style: UIAlertActionStyle.Destructive) {
-            (action) in
-            println("stuff here")
-            //code to choose library here
-        })
-        alert.addAction(UIAlertAction(title: "More stuff", style: UIAlertActionStyle.Default, handler: nil))
-        
-        
-        
-        
-        self.presentViewController(alert, animated: true, completion: nil)
-        
-
-    }
-
 
     func addUsername() {
         var alert = UIAlertController(title: "Username", message: "Enter a Github Username", preferredStyle: UIAlertControllerStyle.Alert)
@@ -286,13 +294,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Enter", style: UIAlertActionStyle.Destructive, handler: {
             UIAlertAction in
-                let localField = alert.textFields[0] as UITextField
+                let localField = alert.textFields?[0] as UITextField
                 self.gitHubUserNameField.text = localField.text!
             
-                    println("ugh \(localField.text)")
-//                self.gitHubUserNameField.text = localField.text!
-            
-                    println("ugh \(self.selectedPerson?.gitHubUserName)")
+                    self.getJSONDataFromGitHub(localField.text)
             
                 UIView.transitionWithView(self.gitHubUserNameField, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
                     self.gitHubUserNameField.setNeedsDisplay()
@@ -321,93 +326,147 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     
     func refreshView () {
-        println("You were right, genius!")
+        println("Mind you I don't know whether you've really considered the advantages of owning a really fine set of modern encyclopaedias. You know, they can really do you wonders.")
     }
 
     func dismissViewController() {
-        navigationController.popViewControllerAnimated(true)
+        navigationController?.popViewControllerAnimated(true)
     }
-
-
     
     func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
 
         
         if textField == firstNameField {
-            println("FIRST NAME FIELD IS ACTIVE")
             var yesFirst : NSString = (self.firstNameField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            println("yesFirst is \(yesFirst)")
             
             if yesFirst.length > 0 {
                 firstFieldBool = true
+                
             } else {
-                println("why am i here?")
                 firstFieldBool = false
+                
             }
             
         } else if textField == lastNameField {
-            println("LAST NAME FIELD IS ACTIVE")
             var yesLast : NSString = (self.lastNameField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            println("yesLast is \(yesLast)")
             
             if yesLast.length > 0 {
                 lastFieldBool = true
+                
             } else {
                 lastFieldBool = false
+                
             }
 
         } else {
-            println("Neither")
+            println("Not a field I care about")
+            
         }
         
         if firstFieldBool == false && lastFieldBool == false {
             println("CASE 1 \(firstFieldBool.boolValue), \(lastFieldBool.boolValue)")
-            self.navigationItem.rightBarButtonItem.enabled = false
+            self.navigationItem.rightBarButtonItem?.enabled = false
+            
         } else {
             println("CASE 2 \(firstFieldBool.boolValue), \(lastFieldBool.boolValue)")
-            self.navigationItem.rightBarButtonItem.enabled = true
+            self.navigationItem.rightBarButtonItem?.enabled = true
+            
         }
-        println("returning")
+        
         return true
+        
     }
     
-//    func textFieldShouldClear(textField: UITextField!) -> Bool {
-//        println("shouldClear")
-//        if self.firstNameField.text.isEmpty {
-//            println("should clear")
-//
-//        }
-//        return true
-//        
-//    }
+    func textFieldDidEndEditing(textField: UITextField!) {
+            if textField == self.gitHubUserNameField {
+            var url = NSURL(string: "\(self.gitHubAPIUrl)\(self.gitHubUserNameField.text)")
+            self.getJSONDataFromGitHub(self.gitHubUserNameField.text)
+            
+        }
+    }
     
+    func getJSONDataFromGitHub(username:String) {
+        let URL = NSURL(string: "https://api.github.com/users/\(username)")
+        let session = NSURLSession.sharedSession()
+        self.activityIndicator.startAnimating()
+        
+        let task = session.dataTaskWithURL(URL, completionHandler: { (data, response, error) -> Void in
+            if response == nil {
+                self.activityIndicator.stopAnimating()
+                self.genericAlert("Page Not Found:", message: "Check your username and try again.", alertStyle: UIAlertControllerStyle.Alert)
+                
+            } else {
+                let serverResponse = response as NSHTTPURLResponse
+                let statusCode = serverResponse.statusCode as Int
+                    println("status code is \(statusCode)")
+                
+                if error != nil {
+                    println(error.localizedDescription)
+                }
+                
+                var errorJSON: NSError?
+                
+                if statusCode == 200 //the "good" code
+                {
+                    var jsonResults = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &errorJSON) as NSDictionary
+                    var url = NSURL(string: jsonResults["avatar_url"] as String)
+                    var imageData = NSData(contentsOfURL: url)
+                    var image = UIImage(data: imageData)
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.jsonData = jsonResults
+                        self.imageView.image = image
+                        self.activityIndicator.stopAnimating()
+                        self.customImage = true
+                        self.githubImage = true
+                        
+                    })
+                } else {
+                    self.activityIndicator.stopAnimating()
+                    self.genericAlert("Page Not Found:", message: "Check your username and try again.", alertStyle: UIAlertControllerStyle.Alert)
+                    
+                }
+            }
+        })
+        task.resume()
+        
+    }
 
     
-//    func presentCamera()
-//    {
-//        // Check for the camera device
-//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary)
-//        {
-//            println("YES")
-//            var cameraUI = UIImagePickerController()
-//            cameraUI.delegate = self
-//            cameraUI.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-//            
-//            // If true you can pinch and zoom to make a diffrent image
-//            cameraUI.allowsEditing = true
-//            // Pops the camera UI on screen
-//            self.presentViewController(cameraUI, animated: true, completion: nil)
-//        }
-//        else
-//        {
-//            var alert = UIAlertView()
-//            alert.title = "No Device"
-//            alert.message = "Your device does not have the proper camera"
-//            alert.addButtonWithTitle("OK")
-//            alert.show()
-//        }
-//        
-//        
-//    }
+    func genericAlert(title: String, message: String, alertStyle: UIAlertControllerStyle)
+    {
+        let alertGeneric = UIAlertController(title: title, message: message, preferredStyle: alertStyle)
+        alertGeneric.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (UIAlertAction) -> Void in
+            
+        }))
+        presentViewController(alertGeneric, animated: true, completion: nil)
+        
+    }
+
+    
+    func textFieldShouldClear(textField: UITextField!) -> Bool {
+        if textField == firstNameField {
+            self.firstFieldBool = false
+            if !self.lastNameField.text.isEmpty {
+                println("there is last name text")
+                
+            } else {
+                self.navigationItem.rightBarButtonItem?.enabled = false
+                
+            }
+        } else if textField == lastNameField {
+            self.lastFieldBool = false
+            if !self.firstNameField.text.isEmpty {
+                println("there is first name text")
+                
+            } else {
+                self.navigationItem.rightBarButtonItem?.enabled = false
+                
+            }
+        }
+
+        return true
+        
+    }
 
 }

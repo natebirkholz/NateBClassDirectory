@@ -85,6 +85,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         // Populate the text fields
         self.firstNameField.text = self.selectedPerson?.firstName
         self.lastNameField.text = self.selectedPerson?.lastName
+        self.gitHubUserNameField.text = self.selectedPerson?.gitHubUserName
         self.imageView.layer.masksToBounds = true
         self.imageView.layer.cornerRadius = 30.0
         
@@ -285,7 +286,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         }
     }
     
-    @IBAction func photoButtonPressed(sender: UIButton) {
+    @IBAction func photoButtonPressed(sender: AnyObject) {
         var imagePickerController = UIImagePickerController()
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
@@ -303,15 +304,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     @IBAction func didTap(sender: UITapGestureRecognizer) {
         // Watches for input via the user tapping the UIImage
-        var alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+//        var alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
+//        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
         
-    }
-    
-    @IBAction func gitButtonHidden(sender: UIButton) {
-        // Watches for input via the user tapping the GitHubUserNameField
-        addUsername()
+        self.tapPicture()
+        
+//        self.presentViewController(alert, animated: true, completion: nil)
         
     }
     
@@ -344,8 +342,13 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     func textFieldDidEndEditing(textField: UITextField!) {
         // Watch for text from the GitHub text field and store it
         if textField == self.gitHubUserNameField {
-            var url = NSURL(string: "\(self.gitHubAPIUrl)\(self.gitHubUserNameField.text)")
-            self.getJSONDataFromGitHub(self.gitHubUserNameField.text)
+            
+//            GOHERE-------------------------------->>>>>>>>>>>>>>
+            
+//            var url = NSURL(string: "\(self.gitHubAPIUrl)\(self.gitHubUserNameField.text)")
+//            
+//            
+//            self.getJSONDataFromGitHub(self.gitHubUserNameField.text)
             
         }
     }
@@ -437,6 +440,20 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             return false
         }
     }
+    
+    func currentImageStyle() -> String {
+        var styleType : String!
+        
+        if customImage == true && githubImage == false {
+            styleType = "imageLocal"
+        } else if customImage == true && githubImage == true {
+            styleType = "imageGithub"
+        } else {
+            styleType = "imageDefault"
+        }
+
+        return styleType
+    }
 
     
     
@@ -444,6 +461,41 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 //  #MARK: User Communication
 // ---------------------------------------------------------------------------
     
+    
+    func tapPicture() {
+        var alert = UIAlertController(title: "Picture", message: "Choose a picture source", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        var conversionString : String?
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Take Picture", style: UIAlertActionStyle.Default, handler: {
+            UIAlertAction in
+            
+            self.photoButtonPressed(self)
+        }))
+        alert.addAction(UIAlertAction(title: "Use Github Image", style: UIAlertActionStyle.Default, handler: {
+            UIAlertAction in
+            if self.lengthBool(self.gitHubUserNameField.text) == true {
+                var url = NSURL(string: "\(self.gitHubAPIUrl)\(self.gitHubUserNameField.text)")
+                self.getJSONDataFromGitHub(self.gitHubUserNameField.text)
+                
+            } else {
+                self.genericAlert("No Github Username", message: "Please enter as Github Username to use a Github Profile Image", alertStyle: UIAlertControllerStyle.Alert)
+            }
+        }))
+        if self.currentImageStyle() != "imageDefault" {
+            alert.addAction(UIAlertAction(title: "Clear Image", style: UIAlertActionStyle.Destructive, handler: {
+                UIAlertAction in
+                
+                
+                
+                
+            }))
+        }
+        
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+    }
     
     func addUsername() {
         var alert = UIAlertController(title: "Username", message: "Enter a Github Username", preferredStyle: UIAlertControllerStyle.Alert)

@@ -167,13 +167,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableViewMain.dequeueReusableCellWithIdentifier("CellMain", forIndexPath: indexPath) as UITableViewCell
-            let personForRow = fetchedResultController.objectAtIndexPath(indexPath) as Person
-           cell.textLabel?.text = personForRow.fullName()
+        let personForRow = fetchedResultController.objectAtIndexPath(indexPath) as Person
+        
+        cell.textLabel?.text = personForRow.fullName()
+        cell.detailTextLabel?.text = personForRow.gitHubUserName
+        cell.imageView?.image = personForRow.imageFor
+        cell.imageView?.layer.masksToBounds = true
+        cell.imageView?.layer.cornerRadius = 20.0
         
             return cell
         
     }
-    
     
     func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
         return true
@@ -257,6 +261,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 managedPerson.firstName = firstNamesLocal[i]
                 managedPerson.lastName = lastNamesLocal[i]
                 managedPerson.isTeacher = false
+                managedPerson.imageSource = 0
                 managedPerson.managedObjectContext.save(nil)
                 
             }
@@ -296,6 +301,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 managedPerson.gitHubUserName = gitNamesLocal[i]
                 managedPerson.isTeacher = true
                 managedPerson.managedObjectContext.save(nil)
+                managedPerson.imageSource = 0
 
         }
         self.dummyInstructors()

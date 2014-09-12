@@ -25,7 +25,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var photoButton: UIButton!
     
     
 // ---------------------------------------------------------------------------
@@ -38,9 +37,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     var firstFieldBool : Bool = false
     var lastFieldBool : Bool = false
     var customImage = false
-    var githubImage = false
     var gitHubAPIUrl = "https://api.github.com/users/"
     var jsonData : NSDictionary?
+    var imageType : Int? // 0 for default, 1 for custom image, 2 for GitHub image
     
 
     
@@ -56,14 +55,20 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         lastNameField.delegate = self
         
         // Check what image to display for the person
-        if self.selectedPerson?.profileImage != nil {
-            self.customImage = true
-
-        } else if self.selectedPerson?.imageFor != nil {
-            self.customImage = true
-
-        }
         
+        if self.selectedPerson?.imageFor?.imageAsset != nil{
+            println("is an image")
+            var loadedImage = self.selectedPerson?.imageFor!
+            self.imageView.image = loadedImage!
+            self.imageType = self.selectedPerson?.imageSource
+            println("imageType, imageSource  \(self.imageType), \(self.selectedPerson?.imageSource)")
+//            self.customImage = true
+            
+        } else {
+            setDefaultImage()
+            }
+    
+    
         // Turn theSave button on or off depending on whether the person is loading or being created
         if selectedPerson? == nil{
             self.navigationItem.rightBarButtonItem?.enabled = false
@@ -85,35 +90,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         // Populate the text fields
         self.firstNameField.text = self.selectedPerson?.firstName
         self.lastNameField.text = self.selectedPerson?.lastName
-        self.gitHubUserNameField.text = self.selectedPerson?.gitHubUserName
+        self.gitHubUserNameField?.text = self.selectedPerson?.gitHubUserName
         self.imageView.layer.masksToBounds = true
-        self.imageView.layer.cornerRadius = 30.0
+        self.imageView.layer.cornerRadius = 5.0
         
-        // set variables used in Detail VC if the custom image is true and disable the photo button if therfe is the (preferred) GitHub image
-        if self.selectedPerson?.profileImage?.imageAsset != nil {
-            var loadedImage = self.selectedPerson?.profileImage
-            self.imageView.image = loadedImage
-            self.customImage == true
-            self.disablePhotoButton()
-            
-        } else if self.selectedPerson?.imageFor.imageAsset != nil {
-            var loadedImage = self.selectedPerson?.imageFor  // UIImage(named: "stack21")
-            self.imageView.image = loadedImage
-            self.customImage = true
-        
-        // Set the default images if there is no custom image
-        } else {
-            if self.selectedPerson?.isTeacher == true   {
-                self.imageView.image = UIImage(named: "teacher")
-
-            } else if self.selectedPerson?.isTeacher == false {
-                self.imageView.image = UIImage(named: "student")
-                
-            } else {
-                self.imageView.image = UIImage(named: "teacher")
-                
-            }
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -130,13 +110,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             
         }
         
-        // Populate the gitHub image if the data was initialized without the GitHub image or if the user saved the entry before it was downloaded
-        if self.selectedPerson?.gitHubUserName != nil {
-            self.gitHubUserNameField.text = self.selectedPerson?.gitHubUserName
-            var url = NSURL(string: "\(self.gitHubAPIUrl)\(self.gitHubUserNameField.text)")
-            self.getJSONDataFromGitHub(self.gitHubUserNameField.text)
-            
-        }
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -161,19 +134,13 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         self.selectedPerson?.firstName = self.firstNameField.text
         self.selectedPerson?.lastName = self.lastNameField.text
         
-        if self.customImage == true && self.githubImage == true {
-            self.selectedPerson?.profileImage = self.imageView.image!
-            
-        } else if self.customImage == true && self.githubImage == false {
+        if self.imageType != 0 {
             self.selectedPerson?.imageFor = self.imageView.image!
+            self.selectedPerson?.imageSource = self.imageType!
             
         } else {
-            println("no image has been added, will not save image data and will load default image next time")
-            
-        }
-        
-        if self.gitHubUserNameField.text == nil {
-            println("nil field")
+            self.selectedPerson?.imageSource = self.imageType!
+            self.selectedPerson?.imageFor = nil
         }
         
         // Only save the GitHub Username if there is actually text in it, nil check didn't work for some reason
@@ -205,19 +172,20 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             newPerson.setValue(self.firstNameField.text, forKey: "firstName")
             newPerson.setValue(self.lastNameField.text, forKey: "lastName")
             
-            if self.gitHubUserNameField.text != nil {
+            if self.lengthBool(self.gitHubUserNameField.text) == true {
                 newPerson.setValue(self.gitHubUserNameField.text, forKey: "gitHubUserName")
                 
+            } else {
+                newPerson.setNilValueForKey("gitHubUserName")
             }
             
-            if self.customImage == true && self.githubImage == false {
+            if self.imageType != 0 {
                 newPerson.setValue(self.imageView.image, forKey: "imageFor")
-                
-            } else if self.customImage == true && self.githubImage == true {
-                newPerson.setValue(self.imageView.image, forKey: "profileImage")
+                newPerson.setValue(self.imageType, forKey: "imageSource")
                 
             } else {
-                println("no image has been added, will not save image data and will load default image next time")
+                newPerson.setNilValueForKey("imageFor")
+                newPerson.setValue(self.imageType, forKey: "imageSource")
                 
             }
             
@@ -229,16 +197,18 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                 
             }
             
-            selectedPerson? = newPerson as Person
+            self.selectedPerson? = newPerson as Person
             
         }
     }
     
+    // Here we set the image from the imagePicker/camera
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
         var editedImage = info[UIImagePickerControllerEditedImage] as UIImage
         
         self.changeImage(editedImage)
-        self.customImage = true
+//        self.customImage = true
+        self.imageType = 1
         picker.dismissViewControllerAnimated(true, completion: nil)
         
     }
@@ -270,16 +240,16 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
     }
     
-    @IBAction func instructorSwitchSwitched(sender: UISwitch) {
-        // Watch for the user tapping the Insturctor switcha nd change the default image if gthere is no custom image
+    @IBAction func instructorSwitchSwitched(sender: AnyObject) {
+        // Watch for the user tapping the Insturctor switch and change the default image if there is no custom image
         if instructorSwitch.on {
-            if self.selectedPerson?.imageFor == nil && customImage == false {
+            if self.imageType == 0 {
                 self.changeImage(UIImage(named:"teacher"))
                 
             }
             
         } else {
-            if self.selectedPerson?.imageFor == nil && customImage == false {
+            if self.imageType == 0 {
                 self.changeImage(UIImage(named: "student"))
                 
             }
@@ -313,19 +283,27 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
     }
     
-    func disablePhotoButton() {
-        self.photoButton.enabled = false
-        UIView.transitionWithView(self.photoButton, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
-            self.photoButton.hidden = true
-            }, completion: nil)
-        
-    }
-    
     func changeImage(withImage: UIImage) {
         UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
             self.imageView.image = withImage
             
             }, completion: nil)
+    }
+    
+    func setDefaultImage () {
+        if self.selectedPerson?.isTeacher == true   {
+        self.imageView.image = UIImage(named: "teacher")
+        self.imageType = 0
+        
+        } else if self.selectedPerson?.isTeacher == false {
+        self.imageView.image = UIImage(named: "student")
+        self.imageType = 0
+        
+        } else {
+        self.imageView.image = UIImage(named: "teacher")
+        self.imageType = 0
+    
+        }
     }
     
     
@@ -339,19 +317,19 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
     }
     
-    func textFieldDidEndEditing(textField: UITextField!) {
-        // Watch for text from the GitHub text field and store it
-        if textField == self.gitHubUserNameField {
-            
-//            GOHERE-------------------------------->>>>>>>>>>>>>>
-            
-//            var url = NSURL(string: "\(self.gitHubAPIUrl)\(self.gitHubUserNameField.text)")
+//    func textFieldDidEndEditing(textField: UITextField!) {
+//        // Watch for text from the GitHub text field and store it
+//        if textField == self.gitHubUserNameField {
 //            
+////            GOHERE-------------------------------->>>>>>>>>>>>>>
 //            
-//            self.getJSONDataFromGitHub(self.gitHubUserNameField.text)
-            
-        }
-    }
+////            var url = NSURL(string: "\(self.gitHubAPIUrl)\(self.gitHubUserNameField.text)")
+////            
+////            
+////            self.getJSONDataFromGitHub(self.gitHubUserNameField.text)
+//            
+//        }
+//    }
     
     
     func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
@@ -401,7 +379,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     func textFieldShouldClear(textField: UITextField!) -> Bool {
         // Disable the Save button if pressing the clear button will leave both First and Last Name fields empty
-        // Because "textFieldDidClear" would be too useful
         if textField == firstNameField {
             self.firstFieldBool = false
                 if self.lastNameField.text.isEmpty {
@@ -441,20 +418,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         }
     }
     
-    func currentImageStyle() -> String {
-        var styleType : String!
-        
-        if customImage == true && githubImage == false {
-            styleType = "imageLocal"
-        } else if customImage == true && githubImage == true {
-            styleType = "imageGithub"
-        } else {
-            styleType = "imageDefault"
-        }
 
-        return styleType
-    }
-
+  
     
     
 // ---------------------------------------------------------------------------
@@ -467,6 +432,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         var conversionString : String?
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        
         alert.addAction(UIAlertAction(title: "Take Picture", style: UIAlertActionStyle.Default, handler: {
             UIAlertAction in
             
@@ -479,13 +445,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                 self.getJSONDataFromGitHub(self.gitHubUserNameField.text)
                 
             } else {
-                self.genericAlert("No Github Username", message: "Please enter as Github Username to use a Github Profile Image", alertStyle: UIAlertControllerStyle.Alert)
+                self.genericAlert("Need Username", message: "Please enter a GitHub Username to download a Github Profile Image", alertStyle: UIAlertControllerStyle.Alert)
             }
         }))
-        if self.currentImageStyle() != "imageDefault" {
+        if self.imageType != 0 {
             alert.addAction(UIAlertAction(title: "Clear Image", style: UIAlertActionStyle.Destructive, handler: {
                 UIAlertAction in
                 
+                self.imageType = 0
+                self.instructorSwitchSwitched(self)
                 
                 
                 
@@ -584,10 +552,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                         self.jsonData = jsonResults
                         self.changeImage(imageFromGitHub)
                         self.activityIndicator.stopAnimating()
-                        self.customImage = true
-                        self.githubImage = true
+//                        self.customImage = true
+                        self.imageType = 2
                         
-                        self.disablePhotoButton()
 
                         
                     })

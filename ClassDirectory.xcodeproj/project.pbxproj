@@ -15,10 +15,7 @@
 		4386582219A40B9F008C643A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4386582119A40B9F008C643A /* DetailViewController.swift */; };
 		438C5A2B19AA573D00D3A4BD /* Class_Directory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 438C5A2919AA573D00D3A4BD /* Class_Directory.xcdatamodeld */; };
 		43AF81B419AE96EE00A16993 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AF81B319AE96EE00A16993 /* Person.swift */; };
-		43BB3D1219B650A400AD677C /* student.png in Resources */ = {isa = PBXBuildFile; fileRef = 43BB3D1019B650A400AD677C /* student.png */; };
-		43BB3D1319B650A400AD677C /* teacher.png in Resources */ = {isa = PBXBuildFile; fileRef = 43BB3D1119B650A400AD677C /* teacher.png */; };
 		43D673B819A44A87001D5DE0 /* PersonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D673B719A44A87001D5DE0 /* PersonClass.swift */; };
-		43E94F8519B5870C000B2CFF /* slr2.png in Resources */ = {isa = PBXBuildFile; fileRef = 43E94F8419B5870C000B2CFF /* slr2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,10 +42,7 @@
 		438C5A2A19AA573D00D3A4BD /* Class_Directory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Class_Directory.xcdatamodel; sourceTree = "<group>"; };
 		43AF81B219AE96EC00A16993 /* Class Directory-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Class Directory-Bridging-Header.h"; sourceTree = "<group>"; };
 		43AF81B319AE96EE00A16993 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
-		43BB3D1019B650A400AD677C /* student.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = student.png; sourceTree = "<group>"; };
-		43BB3D1119B650A400AD677C /* teacher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = teacher.png; sourceTree = "<group>"; };
 		43D673B719A44A87001D5DE0 /* PersonClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonClass.swift; sourceTree = "<group>"; };
-		43E94F8419B5870C000B2CFF /* slr2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slr2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,9 +84,6 @@
 		4386580119A40073008C643A /* Class Directory */ = {
 			isa = PBXGroup;
 			children = (
-				43BB3D1019B650A400AD677C /* student.png */,
-				43BB3D1119B650A400AD677C /* teacher.png */,
-				43E94F8419B5870C000B2CFF /* slr2.png */,
 				4386580419A40073008C643A /* AppDelegate.swift */,
 				4386580619A40073008C643A /* ViewController.swift */,
 				4386580819A40073008C643A /* Main.storyboard */,
@@ -213,10 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4386580A19A40073008C643A /* Main.storyboard in Resources */,
-				43BB3D1219B650A400AD677C /* student.png in Resources */,
-				43E94F8519B5870C000B2CFF /* slr2.png in Resources */,
 				4386580C19A40073008C643A /* Images.xcassets in Resources */,
-				43BB3D1319B650A400AD677C /* teacher.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
